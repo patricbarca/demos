@@ -44,9 +44,30 @@
 
   /* ---------- Shell: one view ---------- */
   .shell { position: relative; height: 100dvh; display: grid; grid-template-rows: auto auto 1fr; overflow: hidden; }
-  .demo-bar { font-size: 11.5px; letter-spacing: .4px; text-align: center; padding: 7px 16px; color: #fff; background: var(--ink); }
+  .demo-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 11.5px; letter-spacing: .4px; padding: 6px 16px; color: #fff; background: var(--ink); }
   .demo-bar strong { font-weight: 600; }
-  .tabs { display: none; }
+  /* Selector arriba: la web del negocio o su sistema de reservas por dentro */
+  .views { display: inline-flex; gap: 4px; padding: 3px; border-radius: 99px; background: rgba(255,255,255,.1); }
+  .views button { border: 0; border-radius: 99px; padding: 5px 14px; cursor: pointer; background: transparent; color: rgba(255,255,255,.75); font-size: 11.5px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
+  .views button[aria-selected="true"] { background: #fff; color: var(--ink); }
+  .views button .pill { display: inline-block; margin-left: 6px; padding: 0 6px; border-radius: 99px; background: var(--red); color: #fff; font-size: 10px; letter-spacing: .3px; }
+
+  /* ---------- El sistema por dentro ---------- */
+  .system { min-height: 0; width: 100%; max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: minmax(250px, .34fr) minmax(0, 1fr); gap: clamp(20px, 3vw, 48px); padding: clamp(16px, 3vh, 32px) clamp(18px, 3.5vw, 48px); }
+  .sys-copy { display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+  .sys-copy h2 { margin: 0; font-family: var(--serif); font-weight: 600; font-size: clamp(30px, min(3.4vw, 6vh), 52px); line-height: 1.05; }
+  .sys-copy h2 em { color: var(--red); }
+  .sys-copy ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; font-size: 14.5px; color: var(--ink-dim); }
+  .sys-copy li { display: grid; grid-template-columns: 26px 1fr; gap: 8px; align-items: start; }
+  .sys-copy li b { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--red); color: #fff; font-size: 12px; }
+  .laptop { min-height: 0; display: flex; flex-direction: column; border-radius: 14px; overflow: hidden; background: #fff; border: 1px solid var(--hair); box-shadow: 0 30px 70px -30px rgba(31,32,32,.55), 0 0 0 8px #1f2020, 0 0 0 9px #3a3634; margin: 9px; }
+  .chrome { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: #eceae7; border-bottom: 1px solid var(--hair); }
+  .chrome i { width: 10px; height: 10px; border-radius: 50%; background: #d6d3cf; }
+  .chrome i:nth-child(1) { background: #ff5f57; } .chrome i:nth-child(2) { background: #febc2e; } .chrome i:nth-child(3) { background: #28c840; }
+  .chrome span { margin-left: 10px; flex: 1; max-width: 360px; padding: 3px 12px; border-radius: 6px; background: #fff; color: var(--muted); font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .laptop iframe { flex: 1; width: 100%; border: 0; display: block; background: #f4f6fb; }
+  .tabs { display: none; grid-row: 2; }
+  .stage, .system { grid-row: 3; }
 
   .stage {
     min-height: 0; width: 100%; max-width: 1320px; margin: 0 auto;
@@ -151,10 +172,17 @@
 
   /* ---------- Mobile: three full-screen tabs ---------- */
   @media (max-width: 860px) {
-    .tabs { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--hair); background: #fff; }
-    .tabs button { border: 0; background: none; padding: 13px 4px 11px; cursor: pointer; color: var(--muted); font-size: 10.5px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; border-bottom: 2px solid transparent; }
+    .tabs { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--hair); background: #fff; }
+    .tabs button { border: 0; background: none; padding: 13px 2px 11px; cursor: pointer; color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; border-bottom: 2px solid transparent; }
     .tabs button[aria-selected="true"] { color: var(--red); border-bottom-color: var(--red); }
     .stage { grid-template-columns: 1fr; padding: 16px; }
+    .views { display: none; }
+    .demo-bar { justify-content: center; text-align: center; }
+    .system { grid-template-columns: 1fr; grid-template-rows: auto 1fr; padding: 10px 10px 12px; gap: 10px; }
+    .sys-copy h2, .sys-copy ul, .sys-copy .btn { display: none; }
+    .sys-copy .lead { font-size: 13.5px; }
+    .laptop { margin: 0; box-shadow: 0 0 0 1px var(--hair); border-radius: 12px; }
+    .chrome { display: none; }
     .seg { display: none; }
     .stage[data-view="site"] .side { display: none; }
     .stage:not([data-view="site"]) .site { display: none; }
@@ -178,12 +206,19 @@
 </head>
 <body>
 <div class="shell">
-  <div class="demo-bar" role="note">Demo prepared by <strong>Patricio Abarca</strong> for Sharp Styles Barber · not the official website</div>
+  <div class="demo-bar">
+    <span role="note">Demo prepared by <strong>Patricio Abarca</strong> for Sharp Styles Barber · not the official website</span>
+    <div class="views" role="tablist" aria-label="What to show">
+      <button role="tab" data-top="front" aria-selected="true">Website &amp; assistant</button>
+      <button role="tab" data-top="system" aria-selected="false">Booking system<span class="pill">inside</span></button>
+    </div>
+  </div>
 
   <nav class="tabs" role="tablist" aria-label="Demo views">
     <button role="tab" data-view="site" aria-selected="true">Website</button>
     <button role="tab" data-view="chat" aria-selected="false">Live chat</button>
     <button role="tab" data-view="wa" aria-selected="false">WhatsApp</button>
+    <button role="tab" data-view="system" aria-selected="false">System</button>
   </nav>
 
   <main class="stage" id="stage" data-view="site">
@@ -250,11 +285,32 @@
       <p class="caption" id="caption"></p>
     </section>
   </main>
+
+  <!-- 4. The booking system the owner uses: every booking from the chat lands here -->
+  <section class="system" id="system" hidden aria-label="Booking system preview">
+    <div class="sys-copy">
+      <div class="eyebrow">Behind the counter</div>
+      <h2>Every booking lands in <em>your</em> agenda.</h2>
+      <p class="lead">What the shop sees: a week at a glance, coloured by service — with the bookings the assistant took while you were busy or closed.</p>
+      <ul>
+        <li><b>1</b><span>Customers book in the chat or on WhatsApp, 24/7.</span></li>
+        <li><b>2</b><span>It appears here instantly, tagged <em>Assistant</em> — no double bookings.</span></li>
+        <li><b>3</b><span>Move, cancel, block lunch or holidays — the assistant follows.</span></li>
+      </ul>
+      <button class="btn gold" type="button" data-go="chat">Try it: book in the chat →</button>
+    </div>
+    <div class="laptop">
+      <div class="chrome" aria-hidden="true"><i></i><i></i><i></i><span>sharpstyles · bookings</span></div>
+      <iframe id="sys" title="Sharp Styles booking system preview" loading="lazy"></iframe>
+    </div>
+  </section>
 </div>
 
 <script>
   // ---------- Config (the only part that changes per business) ----------
   const CHAT_URL = "https://demo-chat-production-e54d2761.up.railway.app/d/sharp-styles-barber-909540";
+  // La agenda de muestra del mismo servidor, con el color de la marca. Muestra las citas hechas en el chat.
+  const SYSTEM_URL = CHAT_URL.replace("/d/", "/preview/") + "?accent=a92e0a";
   const HOURS = { 1: ["08:30", "17:00"], 2: ["08:30", "17:00"], 3: ["08:30", "17:00"], 4: ["08:30", "18:00"], 5: ["08:30", "17:00"] }; // Brisbane time, 0 = Sunday
   const WA_SCRIPT = [
     { day: "Saturday" },
@@ -348,10 +404,24 @@
   const caption = document.getElementById("caption");
   let phoneView = "chat";
 
+  const system = document.getElementById("system");
+  const sys = document.getElementById("sys");
+
   function show(view) {
+    const isSystem = view === "system";
+    system.hidden = !isSystem;
+    stage.hidden = isSystem;
+    document.querySelectorAll("[data-top]").forEach((b) => b.setAttribute("aria-selected", String((b.dataset.top === "system") === isSystem)));
+    if (isSystem) {
+      // Se recarga cada vez: así aparece la cita que el visitante acaba de hacer en el chat.
+      sys.src = `${SYSTEM_URL}&t=${Date.now()}`;
+      document.querySelectorAll(".tabs [role=tab]").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.view === "system")));
+      runId++;
+      return;
+    }
     stage.dataset.view = view;
     if (view !== "site") phoneView = view;
-    document.querySelectorAll("[role=tab]").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.view === (b.closest(".seg") ? phoneView : view))));
+    document.querySelectorAll("[role=tab][data-view]").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.view === (b.closest(".seg") ? phoneView : view))));
     const showChat = phoneView === "chat";
     if (showChat && view !== "site" && !chat.src) chat.src = CHAT_URL; // load the live chat only when first shown
     chat.hidden = !showChat;
@@ -362,6 +432,10 @@
 
   document.querySelectorAll("button[data-view]").forEach((b) => b.addEventListener("click", () => show(b.dataset.view)));
   document.querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => show(b.dataset.go)));
+  // Arriba: la web con el asistente, o el sistema por dentro.
+  document.querySelectorAll("[data-top]").forEach((b) =>
+    b.addEventListener("click", () => show(b.dataset.top === "system" ? "system" : matchMedia("(max-width: 860px)").matches ? "site" : phoneView)),
+  );
 
   // Desktop opens on the WhatsApp animation (it moves, it catches the eye); mobile opens on the website.
   show(matchMedia("(max-width: 860px)").matches ? "site" : "wa");
