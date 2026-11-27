@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Demo page: keep it out of search results so it never competes with the real business. -->
+<meta name="robots" content="noindex, nofollow">
+<title>Sharp Styles Barber · Toowong (demo)</title>
+<meta name="description" content="Website demo prepared for Sharp Styles Barber, Toowong.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #141414;
+    --paper: #f4efe6;
+    --card: #fffaf2;
+    --accent: #b3261e;
+    --muted: #6b6359;
+    --line: #e1d8ca;
+    --ok: #1f7a3d;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #f4efe6; --paper: #141414; --card: #1d1c1a; --muted: #a9a094; --line: #2e2b27; --accent: #e0574e; --ok: #4cc27a;
+    }
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: Inter, system-ui, sans-serif; color: var(--ink); background: var(--paper); line-height: 1.5; }
+  a { color: inherit; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+
+  .demo-bar { background: #fff3b0; color: #3d3600; font-size: 13px; text-align: center; padding: 8px 16px; }
+  .demo-bar a { font-weight: 600; }
+
+  header { border-bottom: 1px solid var(--line); }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { font-family: "Archivo Black", sans-serif; font-size: 20px; letter-spacing: .5px; text-decoration: none; }
+  .logo span { color: var(--accent); }
+  .nav a.call { text-decoration: none; font-weight: 600; font-size: 15px; }
+
+  .hero { padding: 64px 0 56px; display: grid; gap: 32px; grid-template-columns: 1.3fr 1fr; align-items: center; }
+  .eyebrow { text-transform: uppercase; letter-spacing: 2px; font-size: 12px; color: var(--muted); font-weight: 600; }
+  h1 { font-family: "Archivo Black", sans-serif; font-size: clamp(38px, 7vw, 68px); line-height: 1; margin: 12px 0 18px; }
+  h1 em { font-style: normal; color: var(--accent); }
+  .lead { font-size: 18px; color: var(--muted); max-width: 46ch; margin: 0 0 28px; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 20px; border-radius: 999px; font-weight: 600; text-decoration: none; border: 2px solid var(--ink); }
+  .btn.primary { background: var(--ink); color: var(--paper); }
+  .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+  .status-card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 24px; }
+  .status { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 18px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--muted); }
+  .dot.open { background: var(--ok); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 25%, transparent); }
+  .status-card p { margin: 8px 0 0; color: var(--muted); }
+  .walkin { margin-top: 18px; padding-top: 18px; border-top: 1px dashed var(--line); font-size: 15px; }
+
+  section { padding: 56px 0; border-top: 1px solid var(--line); }
+  h2 { font-family: "Archivo Black", sans-serif; font-size: 32px; margin: 0 0 24px; }
+  .prices { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+  .price { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; display: flex; justify-content: space-between; gap: 16px; }
+  .price h3 { margin: 0; font-size: 16px; }
+  .price p { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
+  .price .amt { font-family: "Archivo Black", sans-serif; font-size: 22px; white-space: nowrap; }
+  .price.feature { border: 2px solid var(--accent); }
+
+  .info { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 10px 0; border-bottom: 1px solid var(--line); }
+  td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+  tr.today td { font-weight: 700; }
+  address { font-style: normal; font-size: 18px; margin-bottom: 16px; }
+
+  footer { padding: 32px 0 96px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); }
+
+  .chat-fab { position: fixed; right: 16px; bottom: 16px; background: #25d366; color: #fff; border-radius: 999px; padding: 14px 18px; font-weight: 600; text-decoration: none; box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+
+  @media (max-width: 760px) {
+    .hero, .info { grid-template-columns: 1fr; }
+    .hero { padding: 40px 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-bar" role="note">
+  Demo prepared by <strong>Patricio Abarca</strong> for Sharp Styles Barber. This is not the official website.
+</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#">SHARP <span>STYLES</span></a>
+    <a class="call" href="tel:+61733710923">(07) 3371 0923</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div>
+      <div class="eyebrow">Barber · Toowong, Brisbane</div>
+      <h1>Sharp cuts.<br><em>No booking</em> needed.</h1>
+      <p class="lead">Men's cuts, beard trims and hot-towel shaves on Sherwood Rd. Walk in Monday to Friday, or ask us anything on chat — day or night.</p>
+      <div class="ctas">
+        <a class="btn primary" href="#prices">See prices</a>
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Shop+2%2C+41+Sherwood+Rd%2C+Toowong+QLD+4066" target="_blank" rel="noopener">Get directions</a>
+      </div>
+    </div>
+    <div class="status-card" aria-live="polite">
+      <div class="status"><span class="dot" id="dot"></span><span id="status-text">Checking hours…</span></div>
+      <p id="status-sub">Brisbane time</p>
+      <div class="walkin">💈 Walk-ins welcome. Cut &amp; beard combo <strong>$53</strong>.</div>
+    </div>
+  </div>
+
+  <section id="prices">
+    <div class="wrap">
+      <h2>Prices</h2>
+      <div class="prices">
+        <div class="price feature"><div><h3>Haircut &amp; Beard Trim</h3><p>The combo</p></div><div class="amt">$53</div></div>
+        <div class="price"><div><h3>Men's &amp; Uni Students Haircut</h3></div><div class="amt">$36</div></div>
+        <div class="price"><div><h3>Seniors Haircut</h3></div><div class="amt">$32</div></div>
+        <div class="price"><div><h3>Discounted Style Cut</h3><p>School, pensioner card &amp; all-over clipper</p></div><div class="amt">$30</div></div>
+        <div class="price"><div><h3>Face Shave</h3><p>Straight razor, hot towel &amp; aftershave</p></div><div class="amt">$35</div></div>
+        <div class="price"><div><h3>Beard Trim</h3><p>Clippers &amp; scissors</p></div><div class="amt">$23</div></div>
+        <div class="price"><div><h3>Shampoo</h3></div><div class="amt">$23</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="visit">
+    <div class="wrap info">
+      <div>
+        <h2>Hours</h2>
+        <table id="hours"><tbody></tbody></table>
+        <p style="color:var(--muted);font-size:14px">Closed weekends and public holidays.</p>
+      </div>
+      <div>
+        <h2>Find us</h2>
+        <address>Shop 2, 41 Sherwood Rd<br>Toowong QLD 4066</address>
+        <div class="ctas">
+          <a class="btn primary" href="tel:+61733710923">Call the shop</a>
+          <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Shop+2%2C+41+Sherwood+Rd%2C+Toowong+QLD+4066" target="_blank" rel="noopener">Open in Maps</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Sharp Styles Barber · Toowong. Website demo by Patricio Abarca, Brisbane.</div>
+</footer>
+
+<!-- The chat button appears once the chat demo has a public link (set data-chat on <body> or CHAT_URL below). -->
+<a class="chat-fab" id="chat" hidden target="_blank" rel="noopener">💬 Chat with us</a>
+
+<script>
+  // Public chat demo link (Railway). Empty = button hidden.
+  const CHAT_URL = "";
+
+  // Opening hours in Brisbane time (UTC+10, no daylight saving). 0 = Sunday.
+  const HOURS = { 1: ["08:30", "17:00"], 2: ["08:30", "17:00"], 3: ["08:30", "17:00"], 4: ["08:30", "18:00"], 5: ["08:30", "17:00"] };
+  const NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+  const fmt = (hhmm) => {
+    const [h, m] = hhmm.split(":").map(Number);
+    const suffix = h >= 12 ? "pm" : "am";
+    return `${((h + 11) % 12) + 1}${m ? ":" + String(m).padStart(2, "0") : ""}${suffix}`;
+  };
+  const toMin = (hhmm) => { const [h, m] = hhmm.split(":").map(Number); return h * 60 + m; };
+
+  // Current Brisbane day and minute, independent of the visitor's own time zone.
+  const bne = new Date(Date.now() + 10 * 3600_000);
+  const day = bne.getUTCDay();
+  const nowMin = bne.getUTCHours() * 60 + bne.getUTCMinutes();
+
+  // Hours table, Monday first, today highlighted.
+  const tbody = document.querySelector("#hours tbody");
+  [1, 2, 3, 4, 5, 6, 0].forEach((d) => {
+    const tr = document.createElement("tr");
+    if (d === day) tr.className = "today";
+    const h = HOURS[d];
+    tr.innerHTML = `<td>${NAMES[d]}</td><td>${h ? `${fmt(h[0])} – ${fmt(h[1])}` : "Closed"}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  // Open / closed status with the next opening time.
+  const dot = document.getElementById("dot");
+  const text = document.getElementById("status-text");
+  const sub = document.getElementById("status-sub");
+  const today = HOURS[day];
+  if (today && nowMin >= toMin(today[0]) && nowMin < toMin(today[1])) {
+    dot.classList.add("open");
+    text.textContent = "Open now";
+    sub.textContent = `Until ${fmt(today[1])} today · walk straight in`;
+  } else {
+    text.textContent = "Closed now";
+    let next = null;
+    for (let i = 0; i < 7 && !next; i++) {
+      const d = (day + i) % 7;
+      const h = HOURS[d];
+      if (h && (i > 0 || nowMin < toMin(h[0]))) next = { d, h, i };
+    }
+    sub.textContent = next
+      ? `Opens ${next.i === 0 ? "today" : next.i === 1 ? "tomorrow" : NAMES[next.d]} at ${fmt(next.h[0])}`
+      : "";
+  }
+
+  if (CHAT_URL) {
+    const chat = document.getElementById("chat");
+    chat.href = CHAT_URL;
+    chat.hidden = false;
+  }
+</script>
+</body>
+</html>
