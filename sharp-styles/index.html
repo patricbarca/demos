@@ -115,7 +115,9 @@
   }
   .screen { position: relative; width: 100%; height: 100%; border-radius: 37px; overflow: hidden; background: var(--wa-bg); }
   .notch { position: absolute; top: 9px; left: 50%; transform: translateX(-50%); width: 90px; height: 24px; border-radius: 14px; background: #0b0a09; z-index: 3; }
-  .screen iframe { border: 0; width: 100%; height: 100%; display: block; background: var(--wa-bg); }
+  /* The live chat starts below the notch: a status-bar strip in WhatsApp green sits behind the notch */
+  .screen:has(iframe:not([hidden])) { background: var(--wa-head); }
+  .screen iframe { border: 0; width: 100%; height: calc(100% - 34px); margin-top: 34px; display: block; background: var(--wa-bg); }
   .caption { margin: 0; max-width: 34ch; min-height: 2.8em; text-align: center; font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--ink-dim); }
 
   /* ---------- WhatsApp animation (kept true to WhatsApp) ---------- */
@@ -163,6 +165,7 @@
     .phone { max-width: none; max-height: none; aspect-ratio: auto; padding: 0; background: none; box-shadow: 0 0 0 1px var(--hair); border-radius: 18px; }
     .screen { border-radius: 18px; }
     .notch { display: none; }
+    .screen iframe { height: 100%; margin-top: 0; }
     .wa-head { padding-top: 12px; }
     .menu-grid { grid-template-columns: 1fr; }
     .caption { min-height: 0; font-size: 15px; }
