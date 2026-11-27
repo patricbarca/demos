@@ -5,27 +5,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <!-- Demo page: keep it out of search results so it never competes with the real business. -->
 <meta name="robots" content="noindex, nofollow">
-<meta name="color-scheme" content="dark">
+<meta name="color-scheme" content="light">
 <title>Sharp Styles Barber · Toowong (demo)</title>
 <meta name="description" content="Website and AI assistant demo prepared for Sharp Styles Barber, Toowong.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  /* ---------- Tokens: charcoal, warm ivory and brushed brass ---------- */
+  /* ---------- Tokens: Sharp Styles' own brand (sharpstylesbarber.au): brick red, white frame, Playfair Display ---------- */
   :root {
-    --bg: #0f0e0c;
-    --bg-2: #171512;
-    --ivory: #efe7d8;
-    --ivory-dim: #b9b0a1;
-    --muted: #8a8172;
-    --brass: #c4a36a;
-    --brass-dim: #8f7647;
-    --hair: rgba(196, 163, 106, .22);
-    --hair-soft: rgba(239, 231, 216, .08);
-    --ok: #9fc79a;
-    --serif: "Cormorant Garamond", "Times New Roman", serif;
-    --sans: Manrope, system-ui, sans-serif;
+    --paper: #fbf8f4;
+    --paper-2: #f3ede5;
+    --ink: #1f2020;
+    --ink-dim: #4a4746;
+    --muted: #7d7672;
+    --red: #a92e0a;
+    --red-deep: #861f04;
+    --hair: rgba(31, 32, 32, .14);
+    --hair-red: rgba(169, 46, 10, .35);
+    --ok: #2f7d4f;
+    --serif: "Playfair Display", Georgia, serif;
+    --sans: "Open Sans", system-ui, sans-serif;
+    --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='16'%3E%3Cpath d='M0 12 L7 4 L14 12 L21 4 L28 12' fill='none' stroke='%23000' stroke-opacity='.13' stroke-width='3'/%3E%3C/svg%3E");
     --wa-bg: #efeae2; --wa-in: #fff; --wa-out: #d9fdd3; --wa-head: #075e54; --wa-text: #111b21; --wa-muted: #667781;
   }
 
@@ -33,23 +34,17 @@
   [hidden] { display: none !important; }
   html, body { height: 100%; }
   body {
-    margin: 0; font-family: var(--sans); color: var(--ivory); line-height: 1.5;
+    margin: 0; font-family: var(--sans); color: var(--ink); line-height: 1.5;
     background:
-      radial-gradient(1200px 700px at 18% 0%, rgba(196,163,106,.10), transparent 60%),
-      radial-gradient(900px 600px at 100% 100%, rgba(196,163,106,.06), transparent 60%),
-      var(--bg);
-  }
-  /* Fine film grain so the dark doesn't look flat */
-  body::before {
-    content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .07; mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      radial-gradient(1100px 650px at 100% 0%, rgba(169,46,10,.07), transparent 60%),
+      linear-gradient(180deg, var(--paper), var(--paper-2));
   }
   a { color: inherit; }
   button { font: inherit; }
 
   /* ---------- Shell: one view ---------- */
   .shell { position: relative; height: 100dvh; display: grid; grid-template-rows: auto auto 1fr; overflow: hidden; }
-  .demo-bar { font-size: 11.5px; letter-spacing: .4px; text-align: center; padding: 7px 16px; color: #2a2414; background: linear-gradient(90deg, #b99a5f, #d9bf8a, #b99a5f); }
+  .demo-bar { font-size: 11.5px; letter-spacing: .4px; text-align: center; padding: 7px 16px; color: #fff; background: var(--ink); }
   .demo-bar strong { font-weight: 600; }
   .tabs { display: none; }
 
@@ -62,75 +57,71 @@
   /* ---------- Website side ---------- */
   .site { min-height: 0; display: flex; flex-direction: column; gap: clamp(12px, 2.4vh, 26px); }
 
-  .top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: clamp(10px, 1.6vh, 16px); border-bottom: 1px solid var(--hair); }
-  .mark { display: flex; align-items: center; gap: 14px; }
-  .mono {
-    width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; flex: none;
-    border: 1px solid var(--brass); color: var(--brass); font-family: var(--serif); font-size: 19px; font-style: italic; letter-spacing: .5px;
-    box-shadow: inset 0 0 0 3px var(--bg), inset 0 0 0 4px var(--hair);
-  }
-  .wordmark { font-family: var(--serif); font-size: 22px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; line-height: 1; }
-  .wordmark small { display: block; font-family: var(--sans); font-size: 10px; font-weight: 500; letter-spacing: 3.5px; color: var(--muted); margin-top: 5px; }
-  .status { display: inline-flex; align-items: center; gap: 9px; font-size: 11.5px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--ivory-dim); white-space: nowrap; }
-  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); flex: none; }
-  .dot.open { background: var(--ok); box-shadow: 0 0 0 4px rgba(159,199,154,.15); }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  /* The shop's signboard: red chevron panel with a white inset frame, as on their own site */
+  .plate { background: var(--red) var(--chevron); padding: 7px; box-shadow: 0 10px 24px -12px rgba(134,31,4,.6); }
+  .plate-in { border: 2px solid #fff; padding: 9px 22px 10px; text-align: center; color: #fff; }
+  .wordmark { font-family: var(--serif); font-size: 23px; font-weight: 700; line-height: 1.05; letter-spacing: .3px; }
+  .wordmark small { display: block; font-family: var(--sans); font-size: 9.5px; font-weight: 600; letter-spacing: 3.5px; text-transform: uppercase; opacity: .85; margin-top: 4px; }
+  .status { display: inline-flex; align-items: center; gap: 9px; font-size: 11.5px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: var(--ink-dim); white-space: nowrap; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); flex: none; }
+  .dot.open { background: var(--ok); box-shadow: 0 0 0 4px rgba(47,125,79,.15); }
 
-  .eyebrow { display: flex; align-items: center; gap: 12px; font-size: 11px; letter-spacing: 3.5px; text-transform: uppercase; color: var(--brass); }
-  .eyebrow::before { content: ""; width: 34px; height: 1px; background: var(--brass); }
-  h1 { font-family: var(--serif); font-weight: 500; font-size: clamp(44px, min(6.6vw, 9.5vh), 96px); line-height: .95; letter-spacing: -1px; margin: 8px 0 0; }
-  h1 em { font-style: italic; color: var(--brass); font-weight: 500; }
-  .lead { margin: 0; max-width: 46ch; color: var(--ivory-dim); font-size: clamp(14px, 1.9vh, 16.5px); font-weight: 400; }
+  .eyebrow { display: flex; align-items: center; gap: 12px; font-size: 11px; font-weight: 600; letter-spacing: 3.2px; text-transform: uppercase; color: var(--red); }
+  .eyebrow::before { content: ""; width: 34px; height: 2px; background: var(--red); }
+  h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(40px, min(5.8vw, 8.6vh), 86px); line-height: 1.02; letter-spacing: -.5px; margin: 8px 0 0; }
+  h1 em { font-style: italic; color: var(--red); }
+  .lead { margin: 0; max-width: 48ch; color: var(--ink-dim); font-size: clamp(14px, 1.9vh, 16.5px); }
 
-  /* Price menu, set like a printed card */
-  .menu { position: relative; padding: clamp(14px, 2.4vh, 24px) clamp(18px, 2.4vw, 30px); border: 1px solid var(--hair); background: linear-gradient(180deg, rgba(23,21,18,.85), rgba(15,14,12,.85)); }
-  .menu::after { content: ""; position: absolute; inset: 5px; border: 1px solid var(--hair-soft); pointer-events: none; }
-  .menu h2 { margin: 0 0 clamp(6px, 1.2vh, 12px); text-align: center; font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 20px; color: var(--brass); letter-spacing: .5px; }
+  /* Price list in a white double frame, like a card on the shop wall */
+  .menu { position: relative; padding: clamp(14px, 2.4vh, 24px) clamp(18px, 2.4vw, 30px); background: #fff; border: 2px solid var(--red); box-shadow: 0 18px 40px -28px rgba(31,32,32,.45); }
+  .menu::after { content: ""; position: absolute; inset: 5px; border: 1px solid var(--hair-red); pointer-events: none; }
+  .menu h2 { margin: 0 0 clamp(6px, 1.2vh, 12px); text-align: center; font-family: var(--serif); font-style: italic; font-weight: 600; font-size: 21px; color: var(--red); }
   .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 clamp(20px, 3vw, 40px); }
   .row { display: flex; align-items: baseline; gap: 10px; padding: clamp(4px, .75vh, 8px) 0; font-size: clamp(13px, 1.75vh, 15px); }
-  .row .name { color: var(--ivory); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row .name { color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .row .name small { color: var(--muted); font-size: .85em; }
-  .row .fill { flex: 1; min-width: 14px; border-bottom: 1px dotted var(--brass-dim); transform: translateY(-4px); opacity: .7; }
-  .row .amt { font-family: var(--serif); font-size: 1.3em; font-weight: 600; color: var(--ivory); font-variant-numeric: lining-nums tabular-nums; }
-  .row.sig .name { font-family: var(--serif); font-style: italic; font-size: 1.2em; }
-  .row.sig .amt { color: var(--brass); }
+  .row .fill { flex: 1; min-width: 14px; border-bottom: 1px dotted var(--hair-red); transform: translateY(-4px); }
+  .row .amt { font-family: var(--serif); font-size: 1.25em; font-weight: 700; color: var(--ink); font-variant-numeric: lining-nums tabular-nums; }
+  .row.sig .name { font-family: var(--serif); font-style: italic; font-weight: 600; font-size: 1.12em; }
+  .row.sig .amt { color: var(--red); }
 
   .foot { margin-top: auto; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; }
-  .facts { display: grid; gap: 4px; font-size: 13px; color: var(--ivory-dim); }
-  .facts span { letter-spacing: .3px; }
-  .facts b { font-weight: 600; color: var(--ivory); letter-spacing: 1.5px; text-transform: uppercase; font-size: 11px; margin-right: 8px; }
+  .facts { display: grid; gap: 4px; font-size: 13px; color: var(--ink-dim); }
+  .facts b { font-weight: 700; color: var(--red); letter-spacing: 1.5px; text-transform: uppercase; font-size: 11px; margin-right: 8px; }
   .ctas { display: flex; flex-wrap: wrap; gap: 10px; }
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 20px;
-    font-size: 11.5px; font-weight: 600; letter-spacing: 2.2px; text-transform: uppercase; text-decoration: none; cursor: pointer;
-    color: var(--ivory); background: transparent; border: 1px solid var(--hair); border-radius: 2px;
-    transition: border-color .2s, background .2s, color .2s;
+    font-size: 11.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; cursor: pointer;
+    color: var(--ink); background: #fff; border: 1.5px solid var(--ink); border-radius: 2px;
+    transition: border-color .2s, background-color .2s, color .2s;
   }
-  .btn:hover { border-color: var(--brass); color: var(--brass); }
-  .btn.gold { background: var(--brass); border-color: var(--brass); color: #17130b; }
-  .btn.gold:hover { background: #d4b67f; color: #17130b; }
-  .btn:focus-visible, .seg button:focus-visible, .tabs button:focus-visible { outline: 1px solid var(--brass); outline-offset: 3px; }
+  .btn:hover { border-color: var(--red); color: var(--red); }
+  .btn.gold { background: var(--red) var(--chevron); border-color: var(--red); color: #fff; }
+  .btn.gold:hover { background-color: var(--red-deep); color: #fff; }
+  .btn:focus-visible, .seg button:focus-visible, .tabs button:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
 
   /* ---------- Phone side ---------- */
   .side { min-height: 0; display: flex; flex-direction: column; align-items: center; gap: 14px; }
   .seg { display: flex; gap: 26px; }
-  .seg button { border: 0; background: none; padding: 6px 0; cursor: pointer; color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 2.4px; text-transform: uppercase; border-bottom: 1px solid transparent; }
-  .seg button[aria-selected="true"] { color: var(--brass); border-bottom-color: var(--brass); }
+  .seg button { border: 0; background: none; padding: 6px 0; cursor: pointer; color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: 2.2px; text-transform: uppercase; border-bottom: 2px solid transparent; }
+  .seg button[aria-selected="true"] { color: var(--red); border-bottom-color: var(--red); }
 
   .phone {
     position: relative; flex: 1; min-height: 0; width: 100%; max-width: 360px; max-height: 740px; aspect-ratio: 9 / 18.6;
     border-radius: 46px; padding: 10px;
-    background: linear-gradient(145deg, #3a332a, #14120f 40%, #2a251e);
-    box-shadow: 0 0 0 1px rgba(196,163,106,.35), 0 40px 80px -20px rgba(0,0,0,.8), 0 0 120px -30px rgba(196,163,106,.25);
+    background: linear-gradient(145deg, #3a3634, #161514 45%, #2c2826);
+    box-shadow: 0 0 0 1px rgba(31,32,32,.25), 0 40px 70px -25px rgba(31,32,32,.55), 0 0 110px -30px rgba(169,46,10,.35);
   }
   .screen { position: relative; width: 100%; height: 100%; border-radius: 37px; overflow: hidden; background: var(--wa-bg); }
   .notch { position: absolute; top: 9px; left: 50%; transform: translateX(-50%); width: 90px; height: 24px; border-radius: 14px; background: #0b0a09; z-index: 3; }
   .screen iframe { border: 0; width: 100%; height: 100%; display: block; background: var(--wa-bg); }
-  .caption { margin: 0; max-width: 34ch; min-height: 2.8em; text-align: center; font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--ivory-dim); }
+  .caption { margin: 0; max-width: 34ch; min-height: 2.8em; text-align: center; font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--ink-dim); }
 
   /* ---------- WhatsApp animation (kept true to WhatsApp) ---------- */
   .wa { position: absolute; inset: 0; display: flex; flex-direction: column; color: var(--wa-text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
   .wa-head { display: flex; align-items: center; gap: 10px; padding: 42px 12px 10px; background: var(--wa-head); color: #fff; }
-  .wa-av { width: 36px; height: 36px; border-radius: 50%; background: #17130b; color: var(--brass); border: 1px solid var(--brass); display: grid; place-items: center; font-family: var(--serif); font-style: italic; font-size: 15px; flex: none; }
+  .wa-av { width: 36px; height: 36px; border-radius: 50%; background: var(--red) var(--chevron); color: #fff; box-shadow: inset 0 0 0 2px var(--red), inset 0 0 0 3px #fff; display: grid; place-items: center; font-family: var(--serif); font-weight: 700; font-size: 13px; flex: none; }
   .wa-name { font-weight: 600; font-size: 15px; line-height: 1.2; }
   .wa-status { font-size: 12px; opacity: .85; }
   .wa-thread { flex: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; gap: 5px; padding: 10px 12px; background: var(--wa-bg); background-image: radial-gradient(rgba(0,0,0,.035) 1px, transparent 1px); background-size: 18px 18px; }
@@ -158,18 +149,17 @@
 
   /* ---------- Mobile: three full-screen tabs ---------- */
   @media (max-width: 860px) {
-    .tabs { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--hair); background: rgba(15,14,12,.9); }
-    .tabs button { border: 0; background: none; padding: 13px 4px 11px; cursor: pointer; color: var(--muted); font-size: 10.5px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; border-bottom: 1px solid transparent; }
-    .tabs button[aria-selected="true"] { color: var(--brass); border-bottom-color: var(--brass); }
+    .tabs { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--hair); background: #fff; }
+    .tabs button { border: 0; background: none; padding: 13px 4px 11px; cursor: pointer; color: var(--muted); font-size: 10.5px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; border-bottom: 2px solid transparent; }
+    .tabs button[aria-selected="true"] { color: var(--red); border-bottom-color: var(--red); }
     .stage { grid-template-columns: 1fr; padding: 16px; }
     .seg { display: none; }
     .stage[data-view="site"] .side { display: none; }
     .stage:not([data-view="site"]) .site { display: none; }
     .site { overflow-y: auto; overflow-x: hidden; padding-bottom: 8px; }
-    .top { flex-wrap: wrap; align-items: flex-start; gap: 10px; }
-    .wordmark { font-size: 19px; letter-spacing: 2.5px; }
-    .status { white-space: normal; font-size: 10.5px; letter-spacing: 1.2px; }
-    h1 { font-size: clamp(40px, 12vw, 56px); }
+    .top { flex-direction: column; align-items: stretch; gap: 10px; }
+    .status { white-space: normal; font-size: 10.5px; letter-spacing: 1.2px; justify-content: center; }
+    h1 { font-size: clamp(36px, 11vw, 52px); }
     .phone { max-width: none; max-height: none; aspect-ratio: auto; padding: 0; background: none; box-shadow: 0 0 0 1px var(--hair); border-radius: 18px; }
     .screen { border-radius: 18px; }
     .notch { display: none; }
@@ -181,6 +171,7 @@
   }
   @media (min-width: 861px) and (max-height: 740px) { .lead { display: none; } }
 </style>
+
 </head>
 <body>
 <div class="shell">
@@ -196,10 +187,7 @@
     <!-- 1. The website -->
     <section class="site" aria-label="Website preview">
       <div class="top reveal">
-        <div class="mark">
-          <div class="mono" aria-hidden="true">SS</div>
-          <div class="wordmark">Sharp Styles<small>Barber · Toowong</small></div>
-        </div>
+        <div class="plate"><div class="plate-in"><div class="wordmark">Sharp Styles Barber<small>Toowong</small></div></div></div>
         <div class="status" aria-live="polite"><span class="dot" id="dot"></span><span id="status">Checking hours…</span></div>
       </div>
 
