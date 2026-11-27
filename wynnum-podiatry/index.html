@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Demo page: keep it out of search results so it never competes with the real business. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<title>Wynnum Podiatry Centre (demo)</title>
+<meta name="description" content="Website, AI assistant and booking system demo prepared for Wynnum Podiatry Centre.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,500;0,600;0,700;1,500&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ---------- Tokens: Wynnum Podiatry Centre's own brand (from their website) ---------- */
+  :root {
+    --paper: #f7f9fc;
+    --paper-2: #e9eef7;
+    --ink: #1c2230;
+    --ink-dim: #454d5c;
+    --muted: #747b88;
+    --red: #3c537f;
+    --red-deep: #2a3b5c;
+    --soft: #c5d0e4;
+    --gold-bg: #3c537f;
+    --gold-ink: #ffffff;
+    --plate-line: #c5d0e4;
+    --em-style: normal;
+    --hair: rgba(28, 34, 48, .14);
+    --hair-red: rgba(60, 83, 127, 0.35);
+    --ok: #2f7d4f;
+    --serif: "Jost", "Futura", Helvetica, sans-serif;
+    --sans: "Open Sans", system-ui, sans-serif;
+    --chevron: none;
+    --wa-bg: #efeae2; --wa-in: #fff; --wa-out: #d9fdd3; --wa-head: #075e54; --wa-text: #111b21; --wa-muted: #667781;
+  }
+
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { height: 100%; }
+  body {
+    margin: 0; font-family: var(--sans); color: var(--ink); line-height: 1.5;
+    background:
+      radial-gradient(1100px 650px at 100% 0%, rgba(60, 83, 127, 0.08), transparent 60%),
+      linear-gradient(180deg, var(--paper), var(--paper-2));
+  }
+  a { color: inherit; }
+  button { font: inherit; }
+
+  /* ---------- Shell: one view ---------- */
+  .shell { position: relative; height: 100dvh; display: grid; grid-template-rows: auto auto 1fr; overflow: hidden; }
+  .demo-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 11.5px; letter-spacing: .4px; padding: 6px 16px; color: #fff; background: var(--ink); }
+  .demo-bar strong { font-weight: 600; }
+  /* Selector arriba: la web del negocio o su sistema de reservas por dentro */
+  .views { display: inline-flex; gap: 4px; padding: 3px; border-radius: 99px; background: rgba(255,255,255,.1); }
+  .views button { border: 0; border-radius: 99px; padding: 5px 14px; cursor: pointer; background: transparent; color: rgba(255,255,255,.75); font-size: 11.5px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
+  .views button[aria-selected="true"] { background: #fff; color: var(--ink); }
+  .views button .pill { display: inline-block; margin-left: 6px; padding: 0 6px; border-radius: 99px; background: var(--red); color: #fff; font-size: 10px; letter-spacing: .3px; }
+
+  /* ---------- El sistema por dentro ---------- */
+  .system { min-height: 0; width: 100%; max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: minmax(250px, .34fr) minmax(0, 1fr); gap: clamp(20px, 3vw, 48px); padding: clamp(16px, 3vh, 32px) clamp(18px, 3.5vw, 48px); }
+  .sys-copy { display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+  .sys-copy h2 { margin: 0; font-family: var(--serif); font-weight: 600; font-size: clamp(30px, min(3.4vw, 6vh), 52px); line-height: 1.05; }
+  .sys-copy h2 em { color: var(--red); }
+  .sys-copy ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; font-size: 14.5px; color: var(--ink-dim); }
+  .sys-copy li { display: grid; grid-template-columns: 26px 1fr; gap: 8px; align-items: start; }
+  .sys-copy li b { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--red); color: #fff; font-size: 12px; }
+  .laptop { min-height: 0; display: flex; flex-direction: column; border-radius: 14px; overflow: hidden; background: #fff; border: 1px solid var(--hair); box-shadow: 0 30px 70px -30px rgba(31,32,32,.55), 0 0 0 8px #1f2020, 0 0 0 9px #3a3634; margin: 9px; }
+  .chrome { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: #eceae7; border-bottom: 1px solid var(--hair); }
+  .chrome i { width: 10px; height: 10px; border-radius: 50%; background: #d6d3cf; }
+  .chrome i:nth-child(1) { background: #ff5f57; } .chrome i:nth-child(2) { background: #febc2e; } .chrome i:nth-child(3) { background: #28c840; }
+  .chrome span { margin-left: 10px; flex: 1; max-width: 360px; padding: 3px 12px; border-radius: 6px; background: #fff; color: var(--muted); font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .laptop iframe { flex: 1; width: 100%; border: 0; display: block; background: #f4f6fb; }
+  .tabs { display: none; grid-row: 2; }
+  .stage, .system { grid-row: 3; }
+
+  .stage {
+    min-height: 0; width: 100%; max-width: 1320px; margin: 0 auto;
+    display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(320px, .8fr);
+    gap: clamp(24px, 5vw, 80px); padding: clamp(18px, 3.5vh, 40px) clamp(18px, 4.5vw, 64px);
+  }
+
+  /* ---------- Website side ---------- */
+  .site { min-height: 0; display: flex; flex-direction: column; gap: clamp(12px, 2.4vh, 26px); }
+
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  /* The shop's signboard: red chevron panel with a white inset frame, as on their own site */
+  .plate { background: linear-gradient(135deg, var(--red), var(--red-deep)); padding: 7px; box-shadow: 0 10px 24px -12px rgba(42, 59, 92, 0.55); }
+  .plate-in { border: 2px solid var(--plate-line); padding: 9px 22px 10px; text-align: center; color: #fff; }
+  .wordmark { font-family: var(--serif); font-size: 23px; font-weight: 700; line-height: 1.05; letter-spacing: .3px; }
+  .wordmark small { display: block; font-family: var(--sans); font-size: 9.5px; font-weight: 600; letter-spacing: 3.5px; text-transform: uppercase; opacity: .85; margin-top: 4px; }
+  .status { display: inline-flex; align-items: center; gap: 9px; font-size: 11.5px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: var(--ink-dim); white-space: nowrap; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); flex: none; }
+  .dot.open { background: var(--ok); box-shadow: 0 0 0 4px rgba(47,125,79,.15); }
+
+  .eyebrow { display: flex; align-items: center; gap: 12px; font-size: 11px; font-weight: 600; letter-spacing: 3.2px; text-transform: uppercase; color: var(--red); }
+  .eyebrow::before { content: ""; width: 34px; height: 2px; background: var(--red); }
+  h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(40px, min(5.8vw, 8.6vh), 86px); line-height: 1.02; letter-spacing: -.5px; margin: 8px 0 0; }
+  h1 em { color: var(--red); }
+  .lead { margin: 0; max-width: 48ch; color: var(--ink-dim); font-size: clamp(14px, 1.9vh, 16.5px); }
+
+  /* Price list in a white double frame, like a card on the shop wall */
+  .menu { position: relative; padding: clamp(14px, 2.4vh, 24px) clamp(18px, 2.4vw, 30px); background: #fff; border: 2px solid var(--red); box-shadow: 0 18px 40px -28px rgba(31,32,32,.45); }
+  .menu::after { content: ""; position: absolute; inset: 5px; border: 1px solid var(--hair-red); pointer-events: none; }
+  .menu h2 { margin: 0 0 clamp(6px, 1.2vh, 12px); text-align: center; font-family: var(--serif); font-style: italic; font-weight: 600; font-size: 21px; color: var(--red); }
+  .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 clamp(20px, 3vw, 40px); }
+  .row { display: flex; align-items: baseline; gap: 10px; padding: clamp(4px, .75vh, 8px) 0; font-size: clamp(13px, 1.75vh, 15px); }
+  .row .name { color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row .name small { color: var(--muted); font-size: .85em; }
+  .row .fill { flex: 1; min-width: 14px; border-bottom: 1px dotted var(--hair-red); transform: translateY(-4px); }
+  .row .amt { font-family: var(--serif); font-size: 1.25em; font-weight: 700; color: var(--ink); font-variant-numeric: lining-nums tabular-nums; }
+  .row.sig .name { font-family: var(--serif); font-style: italic; font-weight: 600; font-size: 1.12em; }
+  .row.sig .amt { color: var(--red); }
+
+  .foot { margin-top: auto; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; }
+  .facts { display: grid; gap: 4px; font-size: 13px; color: var(--ink-dim); }
+  .facts b { font-weight: 700; color: var(--red); letter-spacing: 1.5px; text-transform: uppercase; font-size: 11px; margin-right: 8px; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 20px;
+    font-size: 11.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; cursor: pointer;
+    color: var(--ink); background: #fff; border: 1.5px solid var(--ink); border-radius: 2px;
+    transition: border-color .2s, background-color .2s, color .2s;
+  }
+  .btn:hover { border-color: var(--red); color: var(--red); }
+  .btn.gold { background: var(--gold-bg); border-color: var(--gold-bg); color: var(--gold-ink); }
+  .btn.gold:hover { filter: brightness(.94); color: var(--gold-ink); }
+  .btn:focus-visible, .seg button:focus-visible, .tabs button:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+
+  /* ---------- Phone side ---------- */
+  .side { min-height: 0; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .seg { display: flex; gap: 26px; }
+  .seg button { border: 0; background: none; padding: 6px 0; cursor: pointer; color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: 2.2px; text-transform: uppercase; border-bottom: 2px solid transparent; }
+  .seg button[aria-selected="true"] { color: var(--red); border-bottom-color: var(--red); }
+
+  .phone {
+    position: relative; flex: 1; min-height: 0; width: 100%; max-width: 360px; max-height: 740px; aspect-ratio: 9 / 18.6;
+    border-radius: 46px; padding: 10px;
+    background: linear-gradient(145deg, #3a3634, #161514 45%, #2c2826);
+    box-shadow: 0 0 0 1px rgba(31,32,32,.25), 0 40px 70px -25px rgba(31,32,32,.55), 0 0 110px -30px rgba(60, 83, 127, 0.35);
+  }
+  .screen { position: relative; width: 100%; height: 100%; border-radius: 37px; overflow: hidden; background: var(--wa-bg); }
+  .notch { position: absolute; top: 9px; left: 50%; transform: translateX(-50%); width: 90px; height: 24px; border-radius: 14px; background: #0b0a09; z-index: 3; }
+  /* The live chat starts below the notch: a status-bar strip in WhatsApp green sits behind the notch */
+  .screen:has(iframe:not([hidden])) { background: var(--wa-head); }
+  .screen iframe { border: 0; width: 100%; height: calc(100% - 34px); margin-top: 34px; display: block; background: var(--wa-bg); }
+  .caption { margin: 0; max-width: 34ch; min-height: 2.8em; text-align: center; font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--ink-dim); }
+
+  /* ---------- WhatsApp animation (kept true to WhatsApp) ---------- */
+  .wa { position: absolute; inset: 0; display: flex; flex-direction: column; color: var(--wa-text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .wa-head { display: flex; align-items: center; gap: 10px; padding: 42px 12px 10px; background: var(--wa-head); color: #fff; }
+  .wa-av { width: 36px; height: 36px; border-radius: 50%; background: var(--red); color: #fff; box-shadow: inset 0 0 0 2px var(--red), inset 0 0 0 3px #fff; display: grid; place-items: center; font-family: var(--serif); font-weight: 700; font-size: 13px; flex: none; }
+  .wa-name { font-weight: 600; font-size: 15px; line-height: 1.2; }
+  .wa-status { font-size: 12px; opacity: .85; }
+  .wa-thread { flex: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; gap: 5px; padding: 10px 12px; background: var(--wa-bg); background-image: radial-gradient(rgba(0,0,0,.035) 1px, transparent 1px); background-size: 18px 18px; }
+  .wa-day { align-self: center; background: #fff; color: var(--wa-muted); font-size: 11.5px; padding: 3px 9px; border-radius: 7px; margin-bottom: 4px; box-shadow: 0 1px .5px rgba(0,0,0,.13); }
+  .msg { max-width: 82%; padding: 6px 9px 7px; border-radius: 8px; font-size: 14px; line-height: 1.35; box-shadow: 0 1px .5px rgba(0,0,0,.13); animation: pop .28s ease-out both; }
+  .msg.in { align-self: flex-start; background: var(--wa-in); border-top-left-radius: 0; }
+  .msg.out { align-self: flex-end; background: var(--wa-out); border-top-right-radius: 0; }
+  .msg .t { float: right; margin: 5px 0 -3px 10px; font-size: 10.5px; color: var(--wa-muted); }
+  .msg.out .t::after { content: " ✓✓"; color: #53bdeb; }
+  .typing { align-self: flex-start; background: var(--wa-in); border-radius: 8px; border-top-left-radius: 0; padding: 9px 12px; display: inline-flex; gap: 4px; animation: pop .2s ease-out both; }
+  .typing span { width: 7px; height: 7px; border-radius: 50%; background: #9aa5ab; animation: blink 1.2s infinite; }
+  .typing span:nth-child(2) { animation-delay: .2s; }
+  .typing span:nth-child(3) { animation-delay: .4s; }
+  .wa-compose { display: flex; gap: 8px; padding: 8px 10px 16px; background: var(--wa-bg); }
+  .wa-compose div { flex: 1; background: #fff; border-radius: 20px; padding: 9px 14px; color: var(--wa-muted); font-size: 14px; }
+  .wa-compose i { width: 38px; height: 38px; border-radius: 50%; background: #00a884; flex: none; }
+  @keyframes pop { from { opacity: 0; transform: translateY(6px) scale(.98); } to { opacity: 1; transform: none; } }
+  @keyframes blink { 0%, 80%, 100% { opacity: .3; } 40% { opacity: 1; } }
+
+  /* Entrance: a slow, quiet reveal */
+  .reveal { animation: rise .9s cubic-bezier(.2,.7,.2,1) both; }
+  .reveal.d1 { animation-delay: .08s; } .reveal.d2 { animation-delay: .16s; } .reveal.d3 { animation-delay: .24s; } .reveal.d4 { animation-delay: .32s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .msg, .typing, .reveal { animation: none; } .typing span { animation: none; } }
+
+  /* ---------- Mobile: three full-screen tabs ---------- */
+  @media (max-width: 860px) {
+    .tabs { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--hair); background: #fff; }
+    .tabs button { border: 0; background: none; padding: 13px 2px 11px; cursor: pointer; color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; border-bottom: 2px solid transparent; }
+    .tabs button[aria-selected="true"] { color: var(--red); border-bottom-color: var(--red); }
+    .stage { grid-template-columns: 1fr; padding: 16px; }
+    .views { display: none; }
+    .demo-bar { justify-content: center; text-align: center; }
+    .system { grid-template-columns: 1fr; grid-template-rows: auto 1fr; padding: 10px 10px 12px; gap: 10px; }
+    .sys-copy h2, .sys-copy ul, .sys-copy .btn { display: none; }
+    .sys-copy .lead { font-size: 13.5px; }
+    .laptop { margin: 0; box-shadow: 0 0 0 1px var(--hair); border-radius: 12px; }
+    .chrome { display: none; }
+    .seg { display: none; }
+    .stage[data-view="site"] .side { display: none; }
+    .stage:not([data-view="site"]) .site { display: none; }
+    .site { overflow-y: auto; overflow-x: hidden; padding-bottom: 8px; }
+    .top { flex-direction: column; align-items: stretch; gap: 10px; }
+    .status { white-space: normal; font-size: 10.5px; letter-spacing: 1.2px; justify-content: center; }
+    h1 { font-size: clamp(36px, 11vw, 52px); }
+    .phone { max-width: none; max-height: none; aspect-ratio: auto; padding: 0; background: none; box-shadow: 0 0 0 1px var(--hair); border-radius: 18px; }
+    .screen { border-radius: 18px; }
+    .notch { display: none; }
+    .screen iframe { height: 100%; margin-top: 0; }
+    .wa-head { padding-top: 12px; }
+    .menu-grid { grid-template-columns: 1fr; }
+    .caption { min-height: 0; font-size: 15px; }
+    .foot { flex-direction: column; align-items: stretch; }
+    .ctas .btn { flex: 1; }
+  }
+  @media (min-width: 861px) and (max-height: 740px) { .lead { display: none; } }
+
+  /* ---------- Plantilla: lista de servicios sin precios ---------- */
+  .row.svc { gap: 10px; align-items: center; }
+  .row.svc .mark { width: 8px; height: 8px; flex: none; border-radius: 2px; background: var(--red); opacity: .55; transform: rotate(45deg); }
+  .row.svc.sig .mark { opacity: 1; }
+  .row.svc.sig .name { font-family: var(--serif); font-style: var(--em-style); font-weight: 700; color: var(--red); font-size: 1.02em; }
+  .card-note { margin: clamp(6px, 1.2vh, 12px) 0 0; padding-top: clamp(6px, 1vh, 10px); border-top: 1px dashed var(--hair-red); text-align: center; font-size: 12.5px; font-weight: 600; letter-spacing: .4px; color: var(--ink-dim); }
+  .menu h2 { font-style: var(--em-style); }
+  h1 em, .sys-copy h2 em { font-style: var(--em-style); }
+  .caption { font-style: var(--em-style); }
+</style>
+
+</head>
+<body>
+<div class="shell">
+  <div class="demo-bar">
+    <span role="note">Demo prepared by <strong>Patricio Abarca</strong> for Wynnum Podiatry Centre · not the official website</span>
+    <div class="views" role="tablist" aria-label="What to show">
+      <button role="tab" data-top="front" aria-selected="true">Website &amp; assistant</button>
+      <button role="tab" data-top="system" aria-selected="false">Booking system<span class="pill">inside</span></button>
+    </div>
+  </div>
+
+  <nav class="tabs" role="tablist" aria-label="Demo views">
+    <button role="tab" data-view="site" aria-selected="true">Website</button>
+    <button role="tab" data-view="chat" aria-selected="false">Live chat</button>
+    <button role="tab" data-view="wa" aria-selected="false">WhatsApp</button>
+    <button role="tab" data-view="system" aria-selected="false">System</button>
+  </nav>
+
+  <main class="stage" id="stage" data-view="site">
+    <!-- 1. The website -->
+    <section class="site" aria-label="Website preview">
+      <div class="top reveal">
+        <div class="plate"><div class="plate-in"><div class="wordmark">Wynnum Podiatry<small>Wynnum · since 1992</small></div></div></div>
+        <div class="status" aria-live="polite"><span class="dot" id="dot"></span><span id="status">Checking hours…</span></div>
+      </div>
+
+      <div class="reveal d1">
+        <div class="eyebrow">72 Pine St, Wynnum · since 1992</div>
+        <h1>Put your feet<br>in <em>our hands.</em></h1>
+      </div>
+      <p class="lead reveal d2">All aspects of podiatry — in clinic, at home or by telehealth. Book any time, even after the clinic closes.</p>
+
+      <div class="menu reveal d3">
+        <h2>Our services</h2>
+        <div class="menu-grid">
+          <div class="row svc sig"><span class="mark" aria-hidden="true"></span><span class="name">Orthotic Therapy</span></div>
+          <div class="row svc sig"><span class="mark" aria-hidden="true"></span><span class="name">Shockwave Therapy</span></div>
+          <div class="row svc"><span class="mark" aria-hidden="true"></span><span class="name">General Podiatry</span></div>
+          <div class="row svc"><span class="mark" aria-hidden="true"></span><span class="name">Nail Surgery</span></div>
+          <div class="row svc"><span class="mark" aria-hidden="true"></span><span class="name">Biomechanical Assessment</span></div>
+          <div class="row svc"><span class="mark" aria-hidden="true"></span><span class="name">Diabetic Foot Care</span></div>
+          <div class="row svc"><span class="mark" aria-hidden="true"></span><span class="name">Home Visits</span></div>
+          <div class="row svc"><span class="mark" aria-hidden="true"></span><span class="name">Children&#x27;s Feet</span></div>
+        </div>
+        <p class="card-note">NDIS registered · HICAPS on the spot</p>
+      </div>
+
+      <div class="foot reveal d4">
+        <div class="facts">
+          <span><b>Hours</b>Mon–Fri 8–5 · Tue until 7 · alt. Sat 8–2</span>
+          <span><b>Find us</b>72 Pine St, Wynnum · parking at the back</span>
+        </div>
+        <div class="ctas">
+          <a class="btn" href="tel:+61738930655">Call</a>
+          <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=72+Pine+St%2C+Wynnum+QLD+4178" target="_blank" rel="noopener">Directions</a>
+          <button class="btn gold" type="button" data-go="chat">Book online</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 + 3. The phone: live chat and WhatsApp animation -->
+    <section class="side reveal d2" aria-label="Assistant preview">
+      <div class="seg" role="tablist" aria-label="Assistant preview">
+        <button role="tab" data-view="chat" aria-selected="true">Live chat</button>
+        <button role="tab" data-view="wa" aria-selected="false">On WhatsApp</button>
+      </div>
+      <div class="phone">
+        <div class="screen">
+          <div class="notch" aria-hidden="true"></div>
+          <iframe id="chat" title="Wynnum Podiatry Centre live chat demo" loading="lazy"></iframe>
+          <div class="wa" id="wa" hidden aria-label="WhatsApp conversation example">
+            <div class="wa-head">
+              <div class="wa-av" aria-hidden="true">WP</div>
+              <div><div class="wa-name">Wynnum Podiatry Centre</div><div class="wa-status" id="wa-status">online</div></div>
+            </div>
+            <div class="wa-thread" id="wa-thread" aria-live="polite"></div>
+            <div class="wa-compose" aria-hidden="true"><div>Message</div><i></i></div>
+          </div>
+        </div>
+      </div>
+      <p class="caption" id="caption"></p>
+    </section>
+  </main>
+
+  <!-- 4. The booking system the owner uses: every booking from the chat lands here -->
+  <section class="system" id="system" hidden aria-label="Booking system preview">
+    <div class="sys-copy">
+      <div class="eyebrow">Behind the front desk</div>
+      <h2>Every booking lands in <em>your</em> agenda.</h2>
+      <p class="lead">What the clinic sees: a week at a glance, coloured by service — with the appointments the assistant booked while the phones were closed.</p>
+      <ul>
+        <li><b>1</b><span>Customers book in the chat or on WhatsApp, 24/7.</span></li>
+        <li><b>2</b><span>It appears here instantly, tagged <em>Assistant</em> — no double bookings.</span></li>
+        <li><b>3</b><span>Move, cancel, block lunch or leave — the assistant follows.</span></li>
+      </ul>
+      <button class="btn gold" type="button" data-go="chat">Try it: book in the chat →</button>
+    </div>
+    <div class="laptop">
+      <div class="chrome" aria-hidden="true"><i></i><i></i><i></i><span>wynnumpodiatry · appointments</span></div>
+      <iframe id="sys" title="Wynnum Podiatry Centre booking system preview" loading="lazy"></iframe>
+    </div>
+  </section>
+</div>
+
+<script>
+  // ---------- Config (the only part that changes per business) ----------
+  const CHAT_URL = "https://demo-chat-production-e54d2761.up.railway.app/d/wynnum-podiatry-centre-59370c";
+  // La agenda de muestra del mismo servidor, con el color de la marca. Muestra las citas hechas en el chat.
+  const SYSTEM_URL = CHAT_URL.replace("/d/", "/preview/") + "?accent=3c537f";
+  const HOURS = {"1": ["08:00", "17:00"], "2": ["08:00", "19:00"], "3": ["08:00", "17:00"], "4": ["07:30", "17:00"], "5": ["08:00", "17:00"], "6": ["08:00", "14:00"]}; // Brisbane time, 0 = Sunday
+  const WA_SCRIPT = [
+      {
+          "day": "Sunday"
+      },
+      {
+          "who": "out",
+          "t": "8:14 pm",
+          "text": "Hi, do you do home visits? My mum can't drive anymore"
+      },
+      {
+          "who": "in",
+          "t": "8:14 pm",
+          "text": "Hi! Yes — we do home visits across many areas of Brisbane. What suburb is your mum in?"
+      },
+      {
+          "who": "out",
+          "t": "8:15 pm",
+          "text": "Manly West. Is a Tuesday possible?"
+      },
+      {
+          "who": "in",
+          "t": "8:15 pm",
+          "text": "I'll have the team confirm Manly West. For Tuesday I can hold *10:00am* or *2:30pm* — which suits?"
+      },
+      {
+          "who": "out",
+          "t": "8:16 pm",
+          "text": "10am please, it's for Margaret"
+      },
+      {
+          "who": "in",
+          "t": "8:16 pm",
+          "text": "Done ✅ Home visit for Margaret, *Tuesday 10:00am*. The clinic will call to confirm the address."
+      }
+  ];
+  const CAPTIONS = {
+      "chat": "Ask as a patient would — services, home visits, health funds — answered with the clinic's own info.",
+      "wa": "Sunday night, clinic closed — and the home visit still gets booked."
+  };
+
+  // ---------- Open / closed (Brisbane time, UTC+10, no daylight saving) ----------
+  (function status() {
+    const NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const toMin = (s) => { const [h, m] = s.split(":").map(Number); return h * 60 + m; };
+    const fmt = (s) => { const [h, m] = s.split(":").map(Number); return `${((h + 11) % 12) + 1}${m ? ":" + String(m).padStart(2, "0") : ""}${h >= 12 ? "pm" : "am"}`; };
+    const bne = new Date(Date.now() + 10 * 3600_000);
+    const day = bne.getUTCDay();
+    const now = bne.getUTCHours() * 60 + bne.getUTCMinutes();
+    const el = document.getElementById("status");
+    const today = HOURS[day];
+    if (today && now >= toMin(today[0]) && now < toMin(today[1])) {
+      document.getElementById("dot").classList.add("open");
+      el.textContent = `Open · until ${fmt(today[1])}`;
+      return;
+    }
+    for (let i = 0; i < 7; i++) {
+      const d = (day + i) % 7, h = HOURS[d];
+      if (h && (i > 0 || now < toMin(h[0]))) {
+        el.textContent = `Closed · opens ${i === 0 ? "today" : i === 1 ? "tomorrow" : NAMES[d]} ${fmt(h[0])}`;
+        return;
+      }
+    }
+    el.textContent = "Closed";
+  })();
+
+  // ---------- WhatsApp animation ----------
+  const thread = document.getElementById("wa-thread");
+  const waStatus = document.getElementById("wa-status");
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let runId = 0;
+
+  const escapeHtml = (s) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const fmtWa = (s) => escapeHtml(s).replace(/\*([^*]+)\*/g, "<strong>$1</strong>");
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  function addMsg(step) {
+    const el = document.createElement("div");
+    if (step.day) { el.className = "wa-day"; el.textContent = step.day; }
+    else { el.className = `msg ${step.who}`; el.innerHTML = `${fmtWa(step.text)}<span class="t">${step.t}</span>`; }
+    thread.appendChild(el);
+    // Keep only what fits: drop the oldest bubbles once the thread overflows.
+    while (thread.scrollHeight > thread.clientHeight + 2 && thread.children.length > 2) thread.children[1].remove();
+  }
+
+  async function playWa() {
+    const id = ++runId;
+    thread.replaceChildren();
+    if (reduceMotion) { WA_SCRIPT.forEach(addMsg); return; }
+    for (const step of WA_SCRIPT) {
+      if (id !== runId) return; // a newer run (or a tab switch) took over
+      if (step.who === "in") {
+        waStatus.textContent = "typing…";
+        const typing = document.createElement("div");
+        typing.className = "typing";
+        typing.innerHTML = "<span></span><span></span><span></span>";
+        thread.appendChild(typing);
+        await sleep(1300);
+        typing.remove();
+        waStatus.textContent = "online";
+        if (id !== runId) return;
+      } else if (step.who === "out") {
+        await sleep(1100);
+        if (id !== runId) return;
+      }
+      addMsg(step);
+      await sleep(step.day ? 400 : 700);
+    }
+    await sleep(5000);
+    if (id === runId && !document.getElementById("wa").hidden) playWa(); // loop while visible
+  }
+
+  // ---------- Views: desktop = website + phone (chat | WhatsApp); mobile = 3 tabs ----------
+  const stage = document.getElementById("stage");
+  const chat = document.getElementById("chat");
+  const wa = document.getElementById("wa");
+  const caption = document.getElementById("caption");
+  let phoneView = "chat";
+
+  const system = document.getElementById("system");
+  const sys = document.getElementById("sys");
+
+  function show(view) {
+    const isSystem = view === "system";
+    system.hidden = !isSystem;
+    stage.hidden = isSystem;
+    document.querySelectorAll("[data-top]").forEach((b) => b.setAttribute("aria-selected", String((b.dataset.top === "system") === isSystem)));
+    if (isSystem) {
+      // Se recarga cada vez: así aparece la cita que el visitante acaba de hacer en el chat.
+      sys.src = `${SYSTEM_URL}&t=${Date.now()}`;
+      document.querySelectorAll(".tabs [role=tab]").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.view === "system")));
+      runId++;
+      return;
+    }
+    stage.dataset.view = view;
+    if (view !== "site") phoneView = view;
+    document.querySelectorAll("[role=tab][data-view]").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.view === (b.closest(".seg") ? phoneView : view))));
+    const showChat = phoneView === "chat";
+    if (showChat && view !== "site" && !chat.src) chat.src = CHAT_URL; // load the live chat only when first shown
+    chat.hidden = !showChat;
+    wa.hidden = showChat;
+    caption.textContent = CAPTIONS[phoneView];
+    if (!showChat) playWa(); else runId++;
+  }
+
+  document.querySelectorAll("button[data-view]").forEach((b) => b.addEventListener("click", () => show(b.dataset.view)));
+  document.querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => show(b.dataset.go)));
+  // Arriba: la web con el asistente, o el sistema por dentro.
+  document.querySelectorAll("[data-top]").forEach((b) =>
+    b.addEventListener("click", () => show(b.dataset.top === "system" ? "system" : matchMedia("(max-width: 860px)").matches ? "site" : phoneView)),
+  );
+
+  // Desktop opens on the WhatsApp animation (it moves, it catches the eye); mobile opens on the website.
+  show(matchMedia("(max-width: 860px)").matches ? "site" : "wa");
+</script>
+</body>
+</html>
