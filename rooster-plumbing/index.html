@@ -191,7 +191,7 @@
     .seg { display: none; }
     .stage[data-view="site"] .side { display: none; }
     .stage:not([data-view="site"]) .site { display: none; }
-    .site { overflow-y: auto; overflow-x: hidden; padding-bottom: 8px; }
+    .site { overflow-y: auto; overflow-x: hidden; padding-bottom: 8px; padding-right: 8px; }
     .top { flex-direction: column; align-items: stretch; gap: 10px; }
     .status { white-space: normal; font-size: 10.5px; letter-spacing: 1.2px; justify-content: center; }
     h1 { font-size: clamp(36px, 11vw, 52px); }
@@ -222,6 +222,8 @@
     .card-note { display: none; }
     .site { gap: clamp(10px, 1.9vh, 22px); }
   }
+  /* Celular: que el texto no quede pegado a la barra de scroll */
+  @media (max-width: 860px) { .site { padding-right: 8px; } }
 </style>
 
 </head>
