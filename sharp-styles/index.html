@@ -2,15 +2,16 @@
 <html lang="en-AU">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <!-- Demo page: keep it out of search results so it never competes with the real business. -->
 <meta name="robots" content="noindex, nofollow">
 <title>Sharp Styles Barber · Toowong (demo)</title>
-<meta name="description" content="Website demo prepared for Sharp Styles Barber, Toowong.">
+<meta name="description" content="Website and AI assistant demo prepared for Sharp Styles Barber, Toowong.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  /* ---------- Tokens ---------- */
   :root {
     --ink: #141414;
     --paper: #f4efe6;
@@ -19,200 +20,312 @@
     --muted: #6b6359;
     --line: #e1d8ca;
     --ok: #1f7a3d;
+    --wa-bg: #efeae2;
+    --wa-in: #ffffff;
+    --wa-out: #d9fdd3;
+    --wa-head: #075e54;
+    --wa-text: #111b21;
+    --wa-muted: #667781;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --ink: #f4efe6; --paper: #141414; --card: #1d1c1a; --muted: #a9a094; --line: #2e2b27; --accent: #e0574e; --ok: #4cc27a;
     }
   }
+  :root[data-theme="dark"] {
+    --ink: #f4efe6; --paper: #141414; --card: #1d1c1a; --muted: #a9a094; --line: #2e2b27; --accent: #e0574e; --ok: #4cc27a;
+  }
+
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
-  html { scroll-behavior: smooth; }
-  body { margin: 0; font-family: Inter, system-ui, sans-serif; color: var(--ink); background: var(--paper); line-height: 1.5; }
+  html, body { height: 100%; }
+  body { margin: 0; font-family: Inter, system-ui, sans-serif; color: var(--ink); background: var(--paper); line-height: 1.45; }
   a { color: inherit; }
-  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+  button { font: inherit; }
 
-  .demo-bar { background: #fff3b0; color: #3d3600; font-size: 13px; text-align: center; padding: 8px 16px; }
-  .demo-bar a { font-weight: 600; }
+  /* ---------- One-view shell: demo bar + content fill exactly the screen ---------- */
+  .shell { height: 100dvh; display: grid; grid-template-rows: auto auto 1fr; overflow: hidden; }
+  .demo-bar { background: #fff3b0; color: #3d3600; font-size: 12.5px; text-align: center; padding: 6px 16px; }
 
-  header { border-bottom: 1px solid var(--line); }
-  .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-  .logo { font-family: "Archivo Black", sans-serif; font-size: 20px; letter-spacing: .5px; text-decoration: none; }
+  /* Mobile tab bar (hidden on desktop) */
+  .tabs { display: none; }
+
+  .stage { min-height: 0; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr); gap: clamp(20px, 4vw, 56px); padding: clamp(16px, 3vh, 36px) clamp(16px, 4vw, 56px); max-width: 1280px; width: 100%; margin: 0 auto; }
+
+  /* ---------- Website side ---------- */
+  .site { min-height: 0; display: flex; flex-direction: column; gap: clamp(10px, 2vh, 20px); }
+  .brand { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .logo { font-family: "Archivo Black", sans-serif; font-size: 20px; letter-spacing: .5px; }
   .logo span { color: var(--accent); }
-  .nav a.call { text-decoration: none; font-weight: 600; font-size: 15px; }
+  .pill { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); white-space: nowrap; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); flex: none; }
+  .dot.open { background: var(--ok); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 25%, transparent); }
 
-  .hero { padding: 64px 0 56px; display: grid; gap: 32px; grid-template-columns: 1.3fr 1fr; align-items: center; }
-  .eyebrow { text-transform: uppercase; letter-spacing: 2px; font-size: 12px; color: var(--muted); font-weight: 600; }
-  h1 { font-family: "Archivo Black", sans-serif; font-size: clamp(38px, 7vw, 68px); line-height: 1; margin: 12px 0 18px; }
+  .eyebrow { text-transform: uppercase; letter-spacing: 2px; font-size: 11.5px; color: var(--muted); font-weight: 600; }
+  h1 { font-family: "Archivo Black", sans-serif; font-size: clamp(34px, min(6vw, 8vh), 70px); line-height: .98; margin: 6px 0 0; }
   h1 em { font-style: normal; color: var(--accent); }
-  .lead { font-size: 18px; color: var(--muted); max-width: 46ch; margin: 0 0 28px; }
-  .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
-  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 20px; border-radius: 999px; font-weight: 600; text-decoration: none; border: 2px solid var(--ink); }
+  .lead { font-size: clamp(14px, 1.9vh, 17px); color: var(--muted); margin: 0; max-width: 48ch; }
+
+  .prices { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 28px; padding: clamp(10px, 1.8vh, 16px) 18px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; }
+  .prices h2 { grid-column: 1 / -1; margin: 0 0 4px; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); }
+  .row { display: flex; align-items: baseline; gap: 8px; font-size: clamp(13px, 1.7vh, 15px); padding: clamp(3px, .6vh, 6px) 0; }
+  .row .name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row .fill { flex: 1; border-bottom: 1px dotted var(--line); transform: translateY(-4px); min-width: 12px; }
+  .row .amt { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .row.hot .name { font-weight: 700; }
+  .row.hot .amt { color: var(--accent); }
+
+  .facts { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 14px; color: var(--muted); }
+  .facts strong { color: var(--ink); font-weight: 600; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px; border-radius: 999px; font-weight: 600; font-size: 15px; text-decoration: none; border: 2px solid var(--ink); background: transparent; color: var(--ink); cursor: pointer; }
   .btn.primary { background: var(--ink); color: var(--paper); }
-  .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .btn.wa { background: #25d366; border-color: #25d366; color: #fff; }
+  .btn:focus-visible, .seg button:focus-visible, .tabs button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 
-  .status-card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 24px; }
-  .status { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 18px; }
-  .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--muted); }
-  .dot.open { background: var(--ok); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 25%, transparent); }
-  .status-card p { margin: 8px 0 0; color: var(--muted); }
-  .walkin { margin-top: 18px; padding-top: 18px; border-top: 1px dashed var(--line); font-size: 15px; }
+  /* ---------- Phone side ---------- */
+  .side { min-height: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .seg { display: inline-flex; padding: 4px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); }
+  .seg button { border: 0; background: transparent; color: var(--muted); font-weight: 600; font-size: 14px; padding: 8px 16px; border-radius: 999px; cursor: pointer; }
+  .seg button[aria-selected="true"] { background: var(--ink); color: var(--paper); }
 
-  section { padding: 56px 0; border-top: 1px solid var(--line); }
-  h2 { font-family: "Archivo Black", sans-serif; font-size: 32px; margin: 0 0 24px; }
-  .prices { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
-  .price { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; display: flex; justify-content: space-between; gap: 16px; }
-  .price h3 { margin: 0; font-size: 16px; }
-  .price p { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
-  .price .amt { font-family: "Archivo Black", sans-serif; font-size: 22px; white-space: nowrap; }
-  .price.feature { border: 2px solid var(--accent); }
+  .phone { position: relative; flex: 1; min-height: 0; width: 100%; max-width: 380px; max-height: 760px; aspect-ratio: 9 / 18.5; border-radius: 42px; background: #0b0b0b; padding: 12px; box-shadow: 0 24px 60px rgba(0,0,0,.28); }
+  .screen { position: relative; width: 100%; height: 100%; border-radius: 32px; overflow: hidden; background: var(--wa-bg); }
+  .notch { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 92px; height: 24px; border-radius: 14px; background: #0b0b0b; z-index: 3; }
+  .screen iframe { border: 0; width: 100%; height: 100%; display: block; background: var(--wa-bg); }
+  .caption { font-size: 13px; color: var(--muted); text-align: center; max-width: 36ch; margin: 0; min-height: 2.6em; }
 
-  .info { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-  table { width: 100%; border-collapse: collapse; }
-  td { padding: 10px 0; border-bottom: 1px solid var(--line); }
-  td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
-  tr.today td { font-weight: 700; }
-  address { font-style: normal; font-size: 18px; margin-bottom: 16px; }
+  /* ---------- WhatsApp animation ---------- */
+  .wa { position: absolute; inset: 0; display: flex; flex-direction: column; color: var(--wa-text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .wa-head { display: flex; align-items: center; gap: 10px; padding: 40px 12px 10px; background: var(--wa-head); color: #fff; }
+  .wa-av { width: 36px; height: 36px; border-radius: 50%; background: #e0574e; display: grid; place-items: center; font-weight: 800; font-size: 13px; flex: none; }
+  .wa-name { font-weight: 600; font-size: 15px; line-height: 1.2; }
+  .wa-status { font-size: 12px; opacity: .85; }
+  .wa-thread { flex: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; gap: 5px; padding: 10px 12px; background: var(--wa-bg); background-image: radial-gradient(rgba(0,0,0,.035) 1px, transparent 1px); background-size: 18px 18px; }
+  .wa-day { align-self: center; background: #fff; color: var(--wa-muted); font-size: 11.5px; padding: 3px 9px; border-radius: 7px; margin-bottom: 4px; box-shadow: 0 1px .5px rgba(0,0,0,.13); }
+  .msg { max-width: 82%; padding: 6px 9px 7px; border-radius: 8px; font-size: 14px; line-height: 1.35; box-shadow: 0 1px .5px rgba(0,0,0,.13); animation: pop .28s ease-out both; }
+  .msg.in { align-self: flex-start; background: var(--wa-in); border-top-left-radius: 0; }
+  .msg.out { align-self: flex-end; background: var(--wa-out); border-top-right-radius: 0; }
+  .msg .t { float: right; margin: 5px 0 -3px 10px; font-size: 10.5px; color: var(--wa-muted); }
+  .msg.out .t::after { content: " ✓✓"; color: #53bdeb; }
+  .typing { align-self: flex-start; background: var(--wa-in); border-radius: 8px; border-top-left-radius: 0; padding: 9px 12px; display: inline-flex; gap: 4px; animation: pop .2s ease-out both; }
+  .typing span { width: 7px; height: 7px; border-radius: 50%; background: #9aa5ab; animation: blink 1.2s infinite; }
+  .typing span:nth-child(2) { animation-delay: .2s; }
+  .typing span:nth-child(3) { animation-delay: .4s; }
+  .wa-compose { display: flex; gap: 8px; padding: 8px 10px 14px; background: var(--wa-bg); }
+  .wa-compose div { flex: 1; background: #fff; border-radius: 20px; padding: 9px 14px; color: var(--wa-muted); font-size: 14px; }
+  .wa-compose i { width: 38px; height: 38px; border-radius: 50%; background: #00a884; flex: none; }
+  @keyframes pop { from { opacity: 0; transform: translateY(6px) scale(.98); } to { opacity: 1; transform: none; } }
+  @keyframes blink { 0%, 80%, 100% { opacity: .3; } 40% { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .msg, .typing { animation: none; } .typing span { animation: none; } }
 
-  footer { padding: 32px 0 96px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); }
-
-  .chat-fab { position: fixed; right: 16px; bottom: 16px; background: #25d366; color: #fff; border-radius: 999px; padding: 14px 18px; font-weight: 600; text-decoration: none; box-shadow: 0 8px 24px rgba(0,0,0,.25); }
-
-  @media (max-width: 760px) {
-    .hero, .info { grid-template-columns: 1fr; }
-    .hero { padding: 40px 0; }
+  /* ---------- Mobile: three full-screen tabs instead of side by side ---------- */
+  @media (max-width: 860px) {
+    .tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 6px 10px; background: var(--card); border-bottom: 1px solid var(--line); }
+    .tabs button { border: 0; background: transparent; color: var(--muted); font-weight: 600; font-size: 13.5px; padding: 9px 4px; border-radius: 10px; cursor: pointer; }
+    .tabs button[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+    .stage { grid-template-columns: 1fr; padding: 14px 16px; }
+    .seg { display: none; }
+    .stage[data-view="site"] .side { display: none; }
+    .stage:not([data-view="site"]) .site { display: none; }
+    .phone { max-width: none; max-height: none; aspect-ratio: auto; padding: 0; background: none; box-shadow: none; border-radius: 16px; }
+    .screen { border-radius: 16px; border: 1px solid var(--line); }
+    .notch { display: none; }
+    .wa-head { padding-top: 12px; }
+    .prices { grid-template-columns: 1fr; }
+    .caption { min-height: 0; }
+  }
+  /* Short laptop screens: tighten so everything still fits in one view */
+  @media (min-width: 861px) and (max-height: 720px) {
+    .lead { display: none; }
   }
 </style>
 </head>
 <body>
+<div class="shell">
+  <div class="demo-bar" role="note">Demo prepared by <strong>Patricio Abarca</strong> for Sharp Styles Barber · not the official website</div>
 
-<div class="demo-bar" role="note">
-  Demo prepared by <strong>Patricio Abarca</strong> for Sharp Styles Barber. This is not the official website.
-</div>
+  <nav class="tabs" role="tablist" aria-label="Demo views">
+    <button role="tab" data-view="site" aria-selected="true">Website</button>
+    <button role="tab" data-view="chat" aria-selected="false">Live chat</button>
+    <button role="tab" data-view="wa" aria-selected="false">WhatsApp</button>
+  </nav>
 
-<header>
-  <div class="wrap nav">
-    <a class="logo" href="#">SHARP <span>STYLES</span></a>
-    <a class="call" href="tel:+61733710923">(07) 3371 0923</a>
-  </div>
-</header>
-
-<main>
-  <div class="wrap hero">
-    <div>
-      <div class="eyebrow">Barber · Toowong, Brisbane</div>
-      <h1>Sharp cuts.<br><em>No booking</em> needed.</h1>
-      <p class="lead">Men's cuts, beard trims and hot-towel shaves on Sherwood Rd. Walk in Monday to Friday, or ask us anything on chat — day or night.</p>
-      <div class="ctas">
-        <a class="btn primary" href="#prices">See prices</a>
-        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Shop+2%2C+41+Sherwood+Rd%2C+Toowong+QLD+4066" target="_blank" rel="noopener">Get directions</a>
+  <main class="stage" id="stage" data-view="site">
+    <!-- 1. The website -->
+    <section class="site" aria-label="Website preview">
+      <div class="brand">
+        <div class="logo">SHARP <span>STYLES</span></div>
+        <div class="pill" aria-live="polite"><span class="dot" id="dot"></span><span id="status">Checking hours…</span></div>
       </div>
-    </div>
-    <div class="status-card" aria-live="polite">
-      <div class="status"><span class="dot" id="dot"></span><span id="status-text">Checking hours…</span></div>
-      <p id="status-sub">Brisbane time</p>
-      <div class="walkin">💈 Walk-ins welcome. Cut &amp; beard combo <strong>$53</strong>.</div>
-    </div>
-  </div>
 
-  <section id="prices">
-    <div class="wrap">
-      <h2>Prices</h2>
+      <div>
+        <div class="eyebrow">Barber · Toowong, Brisbane</div>
+        <h1>Sharp cuts.<br><em>No booking</em> needed.</h1>
+      </div>
+      <p class="lead">Men's cuts, beard trims and hot-towel shaves on Sherwood Rd. Walk in Monday to Friday — or message us any time, even when we're closed.</p>
+
       <div class="prices">
-        <div class="price feature"><div><h3>Haircut &amp; Beard Trim</h3><p>The combo</p></div><div class="amt">$53</div></div>
-        <div class="price"><div><h3>Men's &amp; Uni Students Haircut</h3></div><div class="amt">$36</div></div>
-        <div class="price"><div><h3>Seniors Haircut</h3></div><div class="amt">$32</div></div>
-        <div class="price"><div><h3>Discounted Style Cut</h3><p>School, pensioner card &amp; all-over clipper</p></div><div class="amt">$30</div></div>
-        <div class="price"><div><h3>Face Shave</h3><p>Straight razor, hot towel &amp; aftershave</p></div><div class="amt">$35</div></div>
-        <div class="price"><div><h3>Beard Trim</h3><p>Clippers &amp; scissors</p></div><div class="amt">$23</div></div>
-        <div class="price"><div><h3>Shampoo</h3></div><div class="amt">$23</div></div>
+        <h2>Prices</h2>
+        <div class="row hot"><span class="name">Cut &amp; beard combo</span><span class="fill"></span><span class="amt">$53</span></div>
+        <div class="row"><span class="name">Men's &amp; uni haircut</span><span class="fill"></span><span class="amt">$36</span></div>
+        <div class="row"><span class="name">Face shave</span><span class="fill"></span><span class="amt">$35</span></div>
+        <div class="row"><span class="name">Seniors haircut</span><span class="fill"></span><span class="amt">$32</span></div>
+        <div class="row"><span class="name">School / pensioner / clipper</span><span class="fill"></span><span class="amt">$30</span></div>
+        <div class="row"><span class="name">Beard trim</span><span class="fill"></span><span class="amt">$23</span></div>
+        <div class="row"><span class="name">Shampoo</span><span class="fill"></span><span class="amt">$23</span></div>
       </div>
-    </div>
-  </section>
 
-  <section id="visit">
-    <div class="wrap info">
-      <div>
-        <h2>Hours</h2>
-        <table id="hours"><tbody></tbody></table>
-        <p style="color:var(--muted);font-size:14px">Closed weekends and public holidays.</p>
+      <div class="facts">
+        <span><strong>Mon–Fri</strong> 8:30am–5pm · <strong>Thu</strong> till 6pm</span>
+        <span>Shop 2, 41 Sherwood Rd, Toowong</span>
       </div>
-      <div>
-        <h2>Find us</h2>
-        <address>Shop 2, 41 Sherwood Rd<br>Toowong QLD 4066</address>
-        <div class="ctas">
-          <a class="btn primary" href="tel:+61733710923">Call the shop</a>
-          <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Shop+2%2C+41+Sherwood+Rd%2C+Toowong+QLD+4066" target="_blank" rel="noopener">Open in Maps</a>
+
+      <div class="ctas">
+        <a class="btn primary" href="tel:+61733710923">Call (07) 3371 0923</a>
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Shop+2%2C+41+Sherwood+Rd%2C+Toowong+QLD+4066" target="_blank" rel="noopener">Directions</a>
+        <button class="btn wa" type="button" data-go="chat">💬 Ask us anything</button>
+      </div>
+    </section>
+
+    <!-- 2 + 3. The phone: live chat and WhatsApp animation -->
+    <section class="side" aria-label="Assistant preview">
+      <div class="seg" role="tablist" aria-label="Assistant preview">
+        <button role="tab" data-view="chat" aria-selected="true">Try the live chat</button>
+        <button role="tab" data-view="wa" aria-selected="false">On WhatsApp</button>
+      </div>
+      <div class="phone">
+        <div class="screen">
+          <div class="notch" aria-hidden="true"></div>
+          <iframe id="chat" title="Sharp Styles live chat demo" loading="lazy"></iframe>
+          <div class="wa" id="wa" hidden aria-label="WhatsApp conversation example">
+            <div class="wa-head">
+              <div class="wa-av" aria-hidden="true">SS</div>
+              <div><div class="wa-name">Sharp Styles Barber</div><div class="wa-status" id="wa-status">online</div></div>
+            </div>
+            <div class="wa-thread" id="wa-thread" aria-live="polite"></div>
+            <div class="wa-compose" aria-hidden="true"><div>Message</div><i></i></div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="wrap">Sharp Styles Barber · Toowong. Website demo by Patricio Abarca, Brisbane.</div>
-</footer>
-
-<!-- The chat button appears once the chat demo has a public link (set data-chat on <body> or CHAT_URL below). -->
-<a class="chat-fab" id="chat" hidden target="_blank" rel="noopener">💬 Chat with us</a>
+      <p class="caption" id="caption">Type a question as if you were a customer — the assistant answers with the shop's real prices and hours.</p>
+    </section>
+  </main>
+</div>
 
 <script>
-  // Public chat demo link (Railway). Empty = button hidden.
+  // ---------- Config (the only part that changes per business) ----------
   const CHAT_URL = "https://demo-chat-production-e54d2761.up.railway.app/d/sharp-styles-barber-909540";
-
-  // Opening hours in Brisbane time (UTC+10, no daylight saving). 0 = Sunday.
-  const HOURS = { 1: ["08:30", "17:00"], 2: ["08:30", "17:00"], 3: ["08:30", "17:00"], 4: ["08:30", "18:00"], 5: ["08:30", "17:00"] };
-  const NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-  const fmt = (hhmm) => {
-    const [h, m] = hhmm.split(":").map(Number);
-    const suffix = h >= 12 ? "pm" : "am";
-    return `${((h + 11) % 12) + 1}${m ? ":" + String(m).padStart(2, "0") : ""}${suffix}`;
+  const HOURS = { 1: ["08:30", "17:00"], 2: ["08:30", "17:00"], 3: ["08:30", "17:00"], 4: ["08:30", "18:00"], 5: ["08:30", "17:00"] }; // Brisbane time, 0 = Sunday
+  const WA_SCRIPT = [
+    { day: "Saturday" },
+    { who: "out", t: "9:41 pm", text: "hey are you guys open tomorrow?" },
+    { who: "in", t: "9:41 pm", text: "Hey! We're closed on weekends — back Monday from 8:30am. No booking needed, just walk in 💈" },
+    { who: "out", t: "9:42 pm", text: "sweet. how much for a cut and beard?" },
+    { who: "in", t: "9:42 pm", text: "The cut & beard combo is *$53*. Just a cut is $36." },
+    { who: "out", t: "9:42 pm", text: "and my son is in year 8?" },
+    { who: "in", t: "9:43 pm", text: "School cuts are *$30*. We're at Shop 2, 41 Sherwood Rd, Toowong — see you Monday! 👋" },
+  ];
+  const CAPTIONS = {
+    chat: "Type a question as if you were a customer — the assistant answers with the shop's real prices and hours.",
+    wa: "Saturday night, shop closed: the same assistant answers on WhatsApp in seconds.",
   };
-  const toMin = (hhmm) => { const [h, m] = hhmm.split(":").map(Number); return h * 60 + m; };
 
-  // Current Brisbane day and minute, independent of the visitor's own time zone.
-  const bne = new Date(Date.now() + 10 * 3600_000);
-  const day = bne.getUTCDay();
-  const nowMin = bne.getUTCHours() * 60 + bne.getUTCMinutes();
-
-  // Hours table, Monday first, today highlighted.
-  const tbody = document.querySelector("#hours tbody");
-  [1, 2, 3, 4, 5, 6, 0].forEach((d) => {
-    const tr = document.createElement("tr");
-    if (d === day) tr.className = "today";
-    const h = HOURS[d];
-    tr.innerHTML = `<td>${NAMES[d]}</td><td>${h ? `${fmt(h[0])} – ${fmt(h[1])}` : "Closed"}</td>`;
-    tbody.appendChild(tr);
-  });
-
-  // Open / closed status with the next opening time.
-  const dot = document.getElementById("dot");
-  const text = document.getElementById("status-text");
-  const sub = document.getElementById("status-sub");
-  const today = HOURS[day];
-  if (today && nowMin >= toMin(today[0]) && nowMin < toMin(today[1])) {
-    dot.classList.add("open");
-    text.textContent = "Open now";
-    sub.textContent = `Until ${fmt(today[1])} today · walk straight in`;
-  } else {
-    text.textContent = "Closed now";
-    let next = null;
-    for (let i = 0; i < 7 && !next; i++) {
-      const d = (day + i) % 7;
-      const h = HOURS[d];
-      if (h && (i > 0 || nowMin < toMin(h[0]))) next = { d, h, i };
+  // ---------- Open / closed pill (Brisbane time, UTC+10, no daylight saving) ----------
+  (function status() {
+    const NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const toMin = (s) => { const [h, m] = s.split(":").map(Number); return h * 60 + m; };
+    const fmt = (s) => { const [h, m] = s.split(":").map(Number); return `${((h + 11) % 12) + 1}${m ? ":" + String(m).padStart(2, "0") : ""}${h >= 12 ? "pm" : "am"}`; };
+    const bne = new Date(Date.now() + 10 * 3600_000);
+    const day = bne.getUTCDay();
+    const now = bne.getUTCHours() * 60 + bne.getUTCMinutes();
+    const el = document.getElementById("status");
+    const today = HOURS[day];
+    if (today && now >= toMin(today[0]) && now < toMin(today[1])) {
+      document.getElementById("dot").classList.add("open");
+      el.textContent = `Open now · till ${fmt(today[1])}`;
+      return;
     }
-    sub.textContent = next
-      ? `Opens ${next.i === 0 ? "today" : next.i === 1 ? "tomorrow" : NAMES[next.d]} at ${fmt(next.h[0])}`
-      : "";
+    for (let i = 0; i < 7; i++) {
+      const d = (day + i) % 7, h = HOURS[d];
+      if (h && (i > 0 || now < toMin(h[0]))) {
+        el.textContent = `Closed · opens ${i === 0 ? "today" : i === 1 ? "tomorrow" : NAMES[d]} ${fmt(h[0])}`;
+        return;
+      }
+    }
+    el.textContent = "Closed";
+  })();
+
+  // ---------- WhatsApp animation ----------
+  const thread = document.getElementById("wa-thread");
+  const waStatus = document.getElementById("wa-status");
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let runId = 0;
+
+  const escapeHtml = (s) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const fmtWa = (s) => escapeHtml(s).replace(/\*([^*]+)\*/g, "<strong>$1</strong>");
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  function addMsg(step) {
+    const el = document.createElement("div");
+    if (step.day) { el.className = "wa-day"; el.textContent = step.day; }
+    else { el.className = `msg ${step.who}`; el.innerHTML = `${fmtWa(step.text)}<span class="t">${step.t}</span>`; }
+    thread.appendChild(el);
+    // Keep only what fits: drop the oldest bubbles once the thread overflows.
+    while (thread.scrollHeight > thread.clientHeight + 2 && thread.children.length > 2) thread.children[1].remove();
   }
 
-  if (CHAT_URL) {
-    const chat = document.getElementById("chat");
-    chat.href = CHAT_URL;
-    chat.hidden = false;
+  async function playWa() {
+    const id = ++runId;
+    thread.replaceChildren();
+    if (reduceMotion) { WA_SCRIPT.forEach(addMsg); return; }
+    for (const step of WA_SCRIPT) {
+      if (id !== runId) return; // a newer run (or tab switch) took over
+      if (step.who === "in") {
+        waStatus.textContent = "typing…";
+        const typing = document.createElement("div");
+        typing.className = "typing";
+        typing.innerHTML = "<span></span><span></span><span></span>";
+        thread.appendChild(typing);
+        await sleep(1300);
+        typing.remove();
+        waStatus.textContent = "online";
+        if (id !== runId) return;
+      } else if (step.who === "out") {
+        await sleep(1100);
+        if (id !== runId) return;
+      }
+      addMsg(step);
+      await sleep(step.day ? 400 : 700);
+    }
+    await sleep(5000);
+    if (id === runId && !document.getElementById("wa").hidden) playWa(); // loop while visible
   }
+
+  // ---------- Views: desktop = website + phone (chat | WhatsApp); mobile = 3 tabs ----------
+  const stage = document.getElementById("stage");
+  const chat = document.getElementById("chat");
+  const wa = document.getElementById("wa");
+  const caption = document.getElementById("caption");
+  let phoneView = "chat";
+
+  function show(view) {
+    stage.dataset.view = view;
+    if (view !== "site") phoneView = view;
+    document.querySelectorAll("[role=tab]").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.view === (b.closest(".seg") ? phoneView : view))));
+    const showChat = phoneView === "chat";
+    if (showChat && !chat.src) chat.src = CHAT_URL; // load the live chat only when first shown
+    chat.hidden = !showChat;
+    wa.hidden = showChat;
+    caption.textContent = CAPTIONS[phoneView];
+    if (!showChat) playWa(); else runId++;
+  }
+
+  document.querySelectorAll("[data-view]").forEach((b) => { if (b.tagName === "BUTTON") b.addEventListener("click", () => show(b.dataset.view)); });
+  document.querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => show(b.dataset.go)));
+
+  // Desktop starts on the WhatsApp animation (it moves, catches the eye); mobile starts on the website.
+  show(matchMedia("(max-width: 860px)").matches ? "site" : "wa");
 </script>
 </body>
 </html>
