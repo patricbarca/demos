@@ -5,100 +5,132 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <!-- Demo page: keep it out of search results so it never competes with the real business. -->
 <meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="dark">
 <title>Sharp Styles Barber · Toowong (demo)</title>
 <meta name="description" content="Website and AI assistant demo prepared for Sharp Styles Barber, Toowong.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  /* ---------- Tokens ---------- */
+  /* ---------- Tokens: charcoal, warm ivory and brushed brass ---------- */
   :root {
-    --ink: #141414;
-    --paper: #f4efe6;
-    --card: #fffaf2;
-    --accent: #b3261e;
-    --muted: #6b6359;
-    --line: #e1d8ca;
-    --ok: #1f7a3d;
-    --wa-bg: #efeae2;
-    --wa-in: #ffffff;
-    --wa-out: #d9fdd3;
-    --wa-head: #075e54;
-    --wa-text: #111b21;
-    --wa-muted: #667781;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --ink: #f4efe6; --paper: #141414; --card: #1d1c1a; --muted: #a9a094; --line: #2e2b27; --accent: #e0574e; --ok: #4cc27a;
-    }
-  }
-  :root[data-theme="dark"] {
-    --ink: #f4efe6; --paper: #141414; --card: #1d1c1a; --muted: #a9a094; --line: #2e2b27; --accent: #e0574e; --ok: #4cc27a;
+    --bg: #0f0e0c;
+    --bg-2: #171512;
+    --ivory: #efe7d8;
+    --ivory-dim: #b9b0a1;
+    --muted: #8a8172;
+    --brass: #c4a36a;
+    --brass-dim: #8f7647;
+    --hair: rgba(196, 163, 106, .22);
+    --hair-soft: rgba(239, 231, 216, .08);
+    --ok: #9fc79a;
+    --serif: "Cormorant Garamond", "Times New Roman", serif;
+    --sans: Manrope, system-ui, sans-serif;
+    --wa-bg: #efeae2; --wa-in: #fff; --wa-out: #d9fdd3; --wa-head: #075e54; --wa-text: #111b21; --wa-muted: #667781;
   }
 
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
   html, body { height: 100%; }
-  body { margin: 0; font-family: Inter, system-ui, sans-serif; color: var(--ink); background: var(--paper); line-height: 1.45; }
+  body {
+    margin: 0; font-family: var(--sans); color: var(--ivory); line-height: 1.5;
+    background:
+      radial-gradient(1200px 700px at 18% 0%, rgba(196,163,106,.10), transparent 60%),
+      radial-gradient(900px 600px at 100% 100%, rgba(196,163,106,.06), transparent 60%),
+      var(--bg);
+  }
+  /* Fine film grain so the dark doesn't look flat */
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .07; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
   a { color: inherit; }
   button { font: inherit; }
 
-  /* ---------- One-view shell: demo bar + content fill exactly the screen ---------- */
-  .shell { height: 100dvh; display: grid; grid-template-rows: auto auto 1fr; overflow: hidden; }
-  .demo-bar { background: #fff3b0; color: #3d3600; font-size: 12.5px; text-align: center; padding: 6px 16px; }
-
-  /* Mobile tab bar (hidden on desktop) */
+  /* ---------- Shell: one view ---------- */
+  .shell { position: relative; height: 100dvh; display: grid; grid-template-rows: auto auto 1fr; overflow: hidden; }
+  .demo-bar { font-size: 11.5px; letter-spacing: .4px; text-align: center; padding: 7px 16px; color: #2a2414; background: linear-gradient(90deg, #b99a5f, #d9bf8a, #b99a5f); }
+  .demo-bar strong { font-weight: 600; }
   .tabs { display: none; }
 
-  .stage { min-height: 0; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr); gap: clamp(20px, 4vw, 56px); padding: clamp(16px, 3vh, 36px) clamp(16px, 4vw, 56px); max-width: 1280px; width: 100%; margin: 0 auto; }
+  .stage {
+    min-height: 0; width: 100%; max-width: 1320px; margin: 0 auto;
+    display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(320px, .8fr);
+    gap: clamp(24px, 5vw, 80px); padding: clamp(18px, 3.5vh, 40px) clamp(18px, 4.5vw, 64px);
+  }
 
   /* ---------- Website side ---------- */
-  .site { min-height: 0; display: flex; flex-direction: column; gap: clamp(10px, 2vh, 20px); }
-  .brand { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-  .logo { font-family: "Archivo Black", sans-serif; font-size: 20px; letter-spacing: .5px; }
-  .logo span { color: var(--accent); }
-  .pill { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); white-space: nowrap; }
-  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); flex: none; }
-  .dot.open { background: var(--ok); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 25%, transparent); }
+  .site { min-height: 0; display: flex; flex-direction: column; gap: clamp(12px, 2.4vh, 26px); }
 
-  .eyebrow { text-transform: uppercase; letter-spacing: 2px; font-size: 11.5px; color: var(--muted); font-weight: 600; }
-  h1 { font-family: "Archivo Black", sans-serif; font-size: clamp(34px, min(6vw, 8vh), 70px); line-height: .98; margin: 6px 0 0; }
-  h1 em { font-style: normal; color: var(--accent); }
-  .lead { font-size: clamp(14px, 1.9vh, 17px); color: var(--muted); margin: 0; max-width: 48ch; }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: clamp(10px, 1.6vh, 16px); border-bottom: 1px solid var(--hair); }
+  .mark { display: flex; align-items: center; gap: 14px; }
+  .mono {
+    width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; flex: none;
+    border: 1px solid var(--brass); color: var(--brass); font-family: var(--serif); font-size: 19px; font-style: italic; letter-spacing: .5px;
+    box-shadow: inset 0 0 0 3px var(--bg), inset 0 0 0 4px var(--hair);
+  }
+  .wordmark { font-family: var(--serif); font-size: 22px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; line-height: 1; }
+  .wordmark small { display: block; font-family: var(--sans); font-size: 10px; font-weight: 500; letter-spacing: 3.5px; color: var(--muted); margin-top: 5px; }
+  .status { display: inline-flex; align-items: center; gap: 9px; font-size: 11.5px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--ivory-dim); white-space: nowrap; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); flex: none; }
+  .dot.open { background: var(--ok); box-shadow: 0 0 0 4px rgba(159,199,154,.15); }
 
-  .prices { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 28px; padding: clamp(10px, 1.8vh, 16px) 18px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; }
-  .prices h2 { grid-column: 1 / -1; margin: 0 0 4px; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); }
-  .row { display: flex; align-items: baseline; gap: 8px; font-size: clamp(13px, 1.7vh, 15px); padding: clamp(3px, .6vh, 6px) 0; }
-  .row .name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .row .fill { flex: 1; border-bottom: 1px dotted var(--line); transform: translateY(-4px); min-width: 12px; }
-  .row .amt { font-weight: 700; font-variant-numeric: tabular-nums; }
-  .row.hot .name { font-weight: 700; }
-  .row.hot .amt { color: var(--accent); }
+  .eyebrow { display: flex; align-items: center; gap: 12px; font-size: 11px; letter-spacing: 3.5px; text-transform: uppercase; color: var(--brass); }
+  .eyebrow::before { content: ""; width: 34px; height: 1px; background: var(--brass); }
+  h1 { font-family: var(--serif); font-weight: 500; font-size: clamp(44px, min(6.6vw, 9.5vh), 96px); line-height: .95; letter-spacing: -1px; margin: 8px 0 0; }
+  h1 em { font-style: italic; color: var(--brass); font-weight: 500; }
+  .lead { margin: 0; max-width: 46ch; color: var(--ivory-dim); font-size: clamp(14px, 1.9vh, 16.5px); font-weight: 400; }
 
-  .facts { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 14px; color: var(--muted); }
-  .facts strong { color: var(--ink); font-weight: 600; }
-  .ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; }
-  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px; border-radius: 999px; font-weight: 600; font-size: 15px; text-decoration: none; border: 2px solid var(--ink); background: transparent; color: var(--ink); cursor: pointer; }
-  .btn.primary { background: var(--ink); color: var(--paper); }
-  .btn.btn-wa { background: #25d366; border-color: #25d366; color: #fff; }
-  .btn:focus-visible, .seg button:focus-visible, .tabs button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  /* Price menu, set like a printed card */
+  .menu { position: relative; padding: clamp(14px, 2.4vh, 24px) clamp(18px, 2.4vw, 30px); border: 1px solid var(--hair); background: linear-gradient(180deg, rgba(23,21,18,.85), rgba(15,14,12,.85)); }
+  .menu::after { content: ""; position: absolute; inset: 5px; border: 1px solid var(--hair-soft); pointer-events: none; }
+  .menu h2 { margin: 0 0 clamp(6px, 1.2vh, 12px); text-align: center; font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 20px; color: var(--brass); letter-spacing: .5px; }
+  .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 clamp(20px, 3vw, 40px); }
+  .row { display: flex; align-items: baseline; gap: 10px; padding: clamp(4px, .75vh, 8px) 0; font-size: clamp(13px, 1.75vh, 15px); }
+  .row .name { color: var(--ivory); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row .name small { color: var(--muted); font-size: .85em; }
+  .row .fill { flex: 1; min-width: 14px; border-bottom: 1px dotted var(--brass-dim); transform: translateY(-4px); opacity: .7; }
+  .row .amt { font-family: var(--serif); font-size: 1.3em; font-weight: 600; color: var(--ivory); font-variant-numeric: lining-nums tabular-nums; }
+  .row.sig .name { font-family: var(--serif); font-style: italic; font-size: 1.2em; }
+  .row.sig .amt { color: var(--brass); }
+
+  .foot { margin-top: auto; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; }
+  .facts { display: grid; gap: 4px; font-size: 13px; color: var(--ivory-dim); }
+  .facts span { letter-spacing: .3px; }
+  .facts b { font-weight: 600; color: var(--ivory); letter-spacing: 1.5px; text-transform: uppercase; font-size: 11px; margin-right: 8px; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 20px;
+    font-size: 11.5px; font-weight: 600; letter-spacing: 2.2px; text-transform: uppercase; text-decoration: none; cursor: pointer;
+    color: var(--ivory); background: transparent; border: 1px solid var(--hair); border-radius: 2px;
+    transition: border-color .2s, background .2s, color .2s;
+  }
+  .btn:hover { border-color: var(--brass); color: var(--brass); }
+  .btn.gold { background: var(--brass); border-color: var(--brass); color: #17130b; }
+  .btn.gold:hover { background: #d4b67f; color: #17130b; }
+  .btn:focus-visible, .seg button:focus-visible, .tabs button:focus-visible { outline: 1px solid var(--brass); outline-offset: 3px; }
 
   /* ---------- Phone side ---------- */
-  .side { min-height: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; }
-  .seg { display: inline-flex; padding: 4px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); }
-  .seg button { border: 0; background: transparent; color: var(--muted); font-weight: 600; font-size: 14px; padding: 8px 16px; border-radius: 999px; cursor: pointer; }
-  .seg button[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+  .side { min-height: 0; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .seg { display: flex; gap: 26px; }
+  .seg button { border: 0; background: none; padding: 6px 0; cursor: pointer; color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 2.4px; text-transform: uppercase; border-bottom: 1px solid transparent; }
+  .seg button[aria-selected="true"] { color: var(--brass); border-bottom-color: var(--brass); }
 
-  .phone { position: relative; flex: 1; min-height: 0; width: 100%; max-width: 380px; max-height: 760px; aspect-ratio: 9 / 18.5; border-radius: 42px; background: #0b0b0b; padding: 12px; box-shadow: 0 24px 60px rgba(0,0,0,.28); }
-  .screen { position: relative; width: 100%; height: 100%; border-radius: 32px; overflow: hidden; background: var(--wa-bg); }
-  .notch { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 92px; height: 24px; border-radius: 14px; background: #0b0b0b; z-index: 3; }
+  .phone {
+    position: relative; flex: 1; min-height: 0; width: 100%; max-width: 360px; max-height: 740px; aspect-ratio: 9 / 18.6;
+    border-radius: 46px; padding: 10px;
+    background: linear-gradient(145deg, #3a332a, #14120f 40%, #2a251e);
+    box-shadow: 0 0 0 1px rgba(196,163,106,.35), 0 40px 80px -20px rgba(0,0,0,.8), 0 0 120px -30px rgba(196,163,106,.25);
+  }
+  .screen { position: relative; width: 100%; height: 100%; border-radius: 37px; overflow: hidden; background: var(--wa-bg); }
+  .notch { position: absolute; top: 9px; left: 50%; transform: translateX(-50%); width: 90px; height: 24px; border-radius: 14px; background: #0b0a09; z-index: 3; }
   .screen iframe { border: 0; width: 100%; height: 100%; display: block; background: var(--wa-bg); }
-  .caption { font-size: 13px; color: var(--muted); text-align: center; max-width: 36ch; margin: 0; min-height: 2.6em; }
+  .caption { margin: 0; max-width: 34ch; min-height: 2.8em; text-align: center; font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--ivory-dim); }
 
-  /* ---------- WhatsApp animation ---------- */
+  /* ---------- WhatsApp animation (kept true to WhatsApp) ---------- */
   .wa { position: absolute; inset: 0; display: flex; flex-direction: column; color: var(--wa-text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-  .wa-head { display: flex; align-items: center; gap: 10px; padding: 40px 12px 10px; background: var(--wa-head); color: #fff; }
-  .wa-av { width: 36px; height: 36px; border-radius: 50%; background: #e0574e; display: grid; place-items: center; font-weight: 800; font-size: 13px; flex: none; }
+  .wa-head { display: flex; align-items: center; gap: 10px; padding: 42px 12px 10px; background: var(--wa-head); color: #fff; }
+  .wa-av { width: 36px; height: 36px; border-radius: 50%; background: #17130b; color: var(--brass); border: 1px solid var(--brass); display: grid; place-items: center; font-family: var(--serif); font-style: italic; font-size: 15px; flex: none; }
   .wa-name { font-weight: 600; font-size: 15px; line-height: 1.2; }
   .wa-status { font-size: 12px; opacity: .85; }
   .wa-thread { flex: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; gap: 5px; padding: 10px 12px; background: var(--wa-bg); background-image: radial-gradient(rgba(0,0,0,.035) 1px, transparent 1px); background-size: 18px 18px; }
@@ -112,35 +144,38 @@
   .typing span { width: 7px; height: 7px; border-radius: 50%; background: #9aa5ab; animation: blink 1.2s infinite; }
   .typing span:nth-child(2) { animation-delay: .2s; }
   .typing span:nth-child(3) { animation-delay: .4s; }
-  .wa-compose { display: flex; gap: 8px; padding: 8px 10px 14px; background: var(--wa-bg); }
+  .wa-compose { display: flex; gap: 8px; padding: 8px 10px 16px; background: var(--wa-bg); }
   .wa-compose div { flex: 1; background: #fff; border-radius: 20px; padding: 9px 14px; color: var(--wa-muted); font-size: 14px; }
   .wa-compose i { width: 38px; height: 38px; border-radius: 50%; background: #00a884; flex: none; }
   @keyframes pop { from { opacity: 0; transform: translateY(6px) scale(.98); } to { opacity: 1; transform: none; } }
   @keyframes blink { 0%, 80%, 100% { opacity: .3; } 40% { opacity: 1; } }
-  @media (prefers-reduced-motion: reduce) { .msg, .typing { animation: none; } .typing span { animation: none; } }
 
-  /* ---------- Mobile: three full-screen tabs instead of side by side ---------- */
+  /* Entrance: a slow, quiet reveal */
+  .reveal { animation: rise .9s cubic-bezier(.2,.7,.2,1) both; }
+  .reveal.d1 { animation-delay: .08s; } .reveal.d2 { animation-delay: .16s; } .reveal.d3 { animation-delay: .24s; } .reveal.d4 { animation-delay: .32s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .msg, .typing, .reveal { animation: none; } .typing span { animation: none; } }
+
+  /* ---------- Mobile: three full-screen tabs ---------- */
   @media (max-width: 860px) {
-    .tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 6px 10px; background: var(--card); border-bottom: 1px solid var(--line); }
-    .tabs button { border: 0; background: transparent; color: var(--muted); font-weight: 600; font-size: 13.5px; padding: 9px 4px; border-radius: 10px; cursor: pointer; }
-    .tabs button[aria-selected="true"] { background: var(--ink); color: var(--paper); }
-    .stage { grid-template-columns: 1fr; padding: 14px 16px; }
-    .site { overflow-y: auto; padding-bottom: 8px; }
-    .brand { flex-wrap: wrap; }
+    .tabs { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--hair); background: rgba(15,14,12,.9); }
+    .tabs button { border: 0; background: none; padding: 13px 4px 11px; cursor: pointer; color: var(--muted); font-size: 10.5px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; border-bottom: 1px solid transparent; }
+    .tabs button[aria-selected="true"] { color: var(--brass); border-bottom-color: var(--brass); }
+    .stage { grid-template-columns: 1fr; padding: 16px; }
     .seg { display: none; }
     .stage[data-view="site"] .side { display: none; }
     .stage:not([data-view="site"]) .site { display: none; }
-    .phone { max-width: none; max-height: none; aspect-ratio: auto; padding: 0; background: none; box-shadow: none; border-radius: 16px; }
-    .screen { border-radius: 16px; border: 1px solid var(--line); }
+    .site { overflow-y: auto; padding-bottom: 8px; }
+    .phone { max-width: none; max-height: none; aspect-ratio: auto; padding: 0; background: none; box-shadow: 0 0 0 1px var(--hair); border-radius: 18px; }
+    .screen { border-radius: 18px; }
     .notch { display: none; }
     .wa-head { padding-top: 12px; }
-    .prices { grid-template-columns: 1fr; }
-    .caption { min-height: 0; }
+    .menu-grid { grid-template-columns: 1fr; }
+    .caption { min-height: 0; font-size: 15px; }
+    .foot { flex-direction: column; align-items: stretch; }
+    .ctas .btn { flex: 1; }
   }
-  /* Short laptop screens: tighten so everything still fits in one view */
-  @media (min-width: 861px) and (max-height: 720px) {
-    .lead { display: none; }
-  }
+  @media (min-width: 861px) and (max-height: 740px) { .lead { display: none; } }
 </style>
 </head>
 <body>
@@ -156,44 +191,51 @@
   <main class="stage" id="stage" data-view="site">
     <!-- 1. The website -->
     <section class="site" aria-label="Website preview">
-      <div class="brand">
-        <div class="logo">SHARP <span>STYLES</span></div>
-        <div class="pill" aria-live="polite"><span class="dot" id="dot"></span><span id="status">Checking hours…</span></div>
+      <div class="top reveal">
+        <div class="mark">
+          <div class="mono" aria-hidden="true">SS</div>
+          <div class="wordmark">Sharp Styles<small>Barber · Toowong</small></div>
+        </div>
+        <div class="status" aria-live="polite"><span class="dot" id="dot"></span><span id="status">Checking hours…</span></div>
       </div>
 
-      <div>
-        <div class="eyebrow">Barber · Toowong, Brisbane</div>
-        <h1>Sharp cuts.<br><em>No booking</em> needed.</h1>
+      <div class="reveal d1">
+        <div class="eyebrow">Sherwood Road, Toowong</div>
+        <h1>The <em>sharp</em> cut,<br>no booking needed.</h1>
       </div>
-      <p class="lead">Men's cuts, beard trims and hot-towel shaves on Sherwood Rd. Walk in Monday to Friday — or message us any time, even when we're closed.</p>
+      <p class="lead reveal d2">Classic men's cuts, beard work and hot-towel straight-razor shaves. Walk in Monday to Friday — or message us any time, even after we close.</p>
 
-      <div class="prices">
-        <h2>Prices</h2>
-        <div class="row hot"><span class="name">Cut &amp; beard combo</span><span class="fill"></span><span class="amt">$53</span></div>
-        <div class="row"><span class="name">Men's &amp; uni haircut</span><span class="fill"></span><span class="amt">$36</span></div>
-        <div class="row"><span class="name">Face shave</span><span class="fill"></span><span class="amt">$35</span></div>
-        <div class="row"><span class="name">Seniors haircut</span><span class="fill"></span><span class="amt">$32</span></div>
-        <div class="row"><span class="name">School / pensioner / clipper</span><span class="fill"></span><span class="amt">$30</span></div>
-        <div class="row"><span class="name">Beard trim</span><span class="fill"></span><span class="amt">$23</span></div>
-        <div class="row"><span class="name">Shampoo</span><span class="fill"></span><span class="amt">$23</span></div>
-      </div>
-
-      <div class="facts">
-        <span><strong>Mon–Fri</strong> 8:30am–5pm · <strong>Thu</strong> till 6pm</span>
-        <span>Shop 2, 41 Sherwood Rd, Toowong</span>
+      <div class="menu reveal d3">
+        <h2>The Menu</h2>
+        <div class="menu-grid">
+          <div class="row sig"><span class="name">Cut &amp; Beard</span><span class="fill"></span><span class="amt">53</span></div>
+          <div class="row sig"><span class="name">Hot-Towel Shave</span><span class="fill"></span><span class="amt">35</span></div>
+          <div class="row"><span class="name">Men's &amp; Uni Cut</span><span class="fill"></span><span class="amt">36</span></div>
+          <div class="row"><span class="name">Seniors Cut</span><span class="fill"></span><span class="amt">32</span></div>
+          <div class="row"><span class="name">School · Pensioner · Clipper</span><span class="fill"></span><span class="amt">30</span></div>
+          <div class="row"><span class="name">Beard Trim</span><span class="fill"></span><span class="amt">23</span></div>
+          <div class="row"><span class="name">Shampoo</span><span class="fill"></span><span class="amt">23</span></div>
+          <div class="row"><span class="name"><small>Prices in AUD</small></span><span class="fill" style="border:0"></span><span class="amt"></span></div>
+        </div>
       </div>
 
-      <div class="ctas">
-        <a class="btn primary" href="tel:+61733710923">Call (07) 3371 0923</a>
-        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Shop+2%2C+41+Sherwood+Rd%2C+Toowong+QLD+4066" target="_blank" rel="noopener">Directions</a>
-        <button class="btn btn-wa" type="button" data-go="chat">💬 Ask us anything</button>
+      <div class="foot reveal d4">
+        <div class="facts">
+          <span><b>Hours</b>Mon–Fri 8:30–5 · Thu until 6</span>
+          <span><b>Find us</b>Shop 2, 41 Sherwood Rd, Toowong</span>
+        </div>
+        <div class="ctas">
+          <a class="btn" href="tel:+61733710923">Call</a>
+          <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Shop+2%2C+41+Sherwood+Rd%2C+Toowong+QLD+4066" target="_blank" rel="noopener">Directions</a>
+          <button class="btn gold" type="button" data-go="chat">Message us</button>
+        </div>
       </div>
     </section>
 
     <!-- 2 + 3. The phone: live chat and WhatsApp animation -->
-    <section class="side" aria-label="Assistant preview">
+    <section class="side reveal d2" aria-label="Assistant preview">
       <div class="seg" role="tablist" aria-label="Assistant preview">
-        <button role="tab" data-view="chat" aria-selected="true">Try the live chat</button>
+        <button role="tab" data-view="chat" aria-selected="true">Live chat</button>
         <button role="tab" data-view="wa" aria-selected="false">On WhatsApp</button>
       </div>
       <div class="phone">
@@ -210,7 +252,7 @@
           </div>
         </div>
       </div>
-      <p class="caption" id="caption">Type a question as if you were a customer — the assistant answers with the shop's real prices and hours.</p>
+      <p class="caption" id="caption"></p>
     </section>
   </main>
 </div>
@@ -222,18 +264,18 @@
   const WA_SCRIPT = [
     { day: "Saturday" },
     { who: "out", t: "9:41 pm", text: "hey are you guys open tomorrow?" },
-    { who: "in", t: "9:41 pm", text: "Hey! We're closed on weekends — back Monday from 8:30am. No booking needed, just walk in 💈" },
+    { who: "in", t: "9:41 pm", text: "Hey! We're closed on weekends — back Monday from 8:30am. No booking needed, just walk in." },
     { who: "out", t: "9:42 pm", text: "sweet. how much for a cut and beard?" },
-    { who: "in", t: "9:42 pm", text: "The cut & beard combo is *$53*. Just a cut is $36." },
+    { who: "in", t: "9:42 pm", text: "The cut & beard is *$53*. Just a cut is $36." },
     { who: "out", t: "9:42 pm", text: "and my son is in year 8?" },
-    { who: "in", t: "9:43 pm", text: "School cuts are *$30*. We're at Shop 2, 41 Sherwood Rd, Toowong — see you Monday! 👋" },
+    { who: "in", t: "9:43 pm", text: "School cuts are *$30*. We're at Shop 2, 41 Sherwood Rd, Toowong — see you Monday!" },
   ];
   const CAPTIONS = {
-    chat: "Type a question as if you were a customer — the assistant answers with the shop's real prices and hours.",
-    wa: "Saturday night, shop closed: the same assistant answers on WhatsApp in seconds.",
+    chat: "Ask anything, as a customer would — answered with the shop's own prices and hours.",
+    wa: "Saturday night, doors closed — and every message still answered.",
   };
 
-  // ---------- Open / closed pill (Brisbane time, UTC+10, no daylight saving) ----------
+  // ---------- Open / closed (Brisbane time, UTC+10, no daylight saving) ----------
   (function status() {
     const NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const toMin = (s) => { const [h, m] = s.split(":").map(Number); return h * 60 + m; };
@@ -245,7 +287,7 @@
     const today = HOURS[day];
     if (today && now >= toMin(today[0]) && now < toMin(today[1])) {
       document.getElementById("dot").classList.add("open");
-      el.textContent = `Open now · till ${fmt(today[1])}`;
+      el.textContent = `Open · until ${fmt(today[1])}`;
       return;
     }
     for (let i = 0; i < 7; i++) {
@@ -282,7 +324,7 @@
     thread.replaceChildren();
     if (reduceMotion) { WA_SCRIPT.forEach(addMsg); return; }
     for (const step of WA_SCRIPT) {
-      if (id !== runId) return; // a newer run (or tab switch) took over
+      if (id !== runId) return; // a newer run (or a tab switch) took over
       if (step.who === "in") {
         waStatus.textContent = "typing…";
         const typing = document.createElement("div");
@@ -316,17 +358,17 @@
     if (view !== "site") phoneView = view;
     document.querySelectorAll("[role=tab]").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.view === (b.closest(".seg") ? phoneView : view))));
     const showChat = phoneView === "chat";
-    if (showChat && !chat.src) chat.src = CHAT_URL; // load the live chat only when first shown
+    if (showChat && view !== "site" && !chat.src) chat.src = CHAT_URL; // load the live chat only when first shown
     chat.hidden = !showChat;
     wa.hidden = showChat;
     caption.textContent = CAPTIONS[phoneView];
     if (!showChat) playWa(); else runId++;
   }
 
-  document.querySelectorAll("[data-view]").forEach((b) => { if (b.tagName === "BUTTON") b.addEventListener("click", () => show(b.dataset.view)); });
+  document.querySelectorAll("button[data-view]").forEach((b) => b.addEventListener("click", () => show(b.dataset.view)));
   document.querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => show(b.dataset.go)));
 
-  // Desktop starts on the WhatsApp animation (it moves, catches the eye); mobile starts on the website.
+  // Desktop opens on the WhatsApp animation (it moves, it catches the eye); mobile opens on the website.
   show(matchMedia("(max-width: 860px)").matches ? "site" : "wa");
 </script>
 </body>
